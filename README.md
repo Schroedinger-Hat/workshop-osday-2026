@@ -25,7 +25,7 @@ Before the workshop, make sure you have installed:
 ### Environment Test
 
 ```bash
-git clone https://github.com/Schroedinger-Hat/workshop-osday-2026
+git clone https://github.com/<your-org>/workshop-osday-2026
 cd workshop-osday-2026/application
 docker compose up
 # Open http://localhost:3000 — the app should appear

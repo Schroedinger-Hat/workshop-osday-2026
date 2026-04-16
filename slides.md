@@ -17,7 +17,7 @@ revealOptions:
 
 Build, test, containerize, and ship a real app
 
-<small>Davide Imola & Lorenzo Bugli · 90 min</small>
+<small>90 min</small>
 
 ---
 
@@ -75,7 +75,7 @@ A **URL Shortener** with a visit counter
 ### Clone & Run
 
 ```bash
-git clone https://github.com/Schroedinger-Hat/workshop-osday-2026
+git clone https://github.com/<your-org>/workshop-osday-2026
 cd workshop-osday-2026/application
 docker compose up
 ```
@@ -556,6 +556,4 @@ fly deploy
 
 <br>
 
-**Davide Imola** · **Lorenzo Bugli**
-
-[github.com/Schroedinger-Hat](https://github.com/Schroedinger-Hat)
+Happy hacking! 🚀

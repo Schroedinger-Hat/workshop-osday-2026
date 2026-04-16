@@ -1,6 +1,6 @@
 # Workshop: From Git to Deploy — Organizer Guide
 
-> Working document for Davide Imola and Lorenzo Bugli
+> Working document for workshop organizers
 > Conference: OSDev — 11:30 / 13:00 (90 minutes)
 > Audience: junior developers and intermediate professionals
 
@@ -101,8 +101,8 @@ To be decided together:
 | Option | Pros | Cons |
 |---|---|---|
 | **TypeScript/Hono** (recommended) | Single runtime (Node.js), consistent with Next.js frontend, Hono is modern and TypeScript-first | Less well-known than Express among juniors |
-| **Go** | Davide's stack, minimal Dockerfile, built-in `go test` | Requires a second runtime installed, less familiar to juniors |
-| **Python/FastAPI** | Lorenzo's stack, intuitive pytest, very readable | Requires a second runtime installed |
+| **Go** | Minimal Dockerfile, built-in `go test` | Requires a second runtime installed, less familiar to juniors |
+| **Python/FastAPI** | Intuitive pytest, very readable | Requires a second runtime installed |
 
 **Recommendation:** TypeScript/Hono — a single runtime to install lowers the risk of issues on participants' machines.
 
