@@ -7,11 +7,12 @@ When making any change to the project (code, config, slides, or structure), **al
 - `README.md` — participant guide (includes Tools Reference, repo structure, prerequisites, quick reference card)
 - `ORGANIZERS.md` — organizer guide (includes workshop flow, slide info, decisions)
 - `slides.md` — reveal-md presentation (run with `npx reveal-md slides.md`)
+- `DEVCONTAINER.md` — dev container documentation (setup, usage, troubleshooting)
 - `SETUP.md` — setup log (steps taken to initialize the app)
 
 ### What to check on every change
 
-1. **New tool or dependency added?** → Update README (prerequisites + Tools Reference section for the correct phase), slides (tech stack slide), and ORGANIZERS.md if it affects the workshop flow.
+1. **New tool or dependency added?** → Update README (prerequisites + Tools Reference section for the correct phase), slides (tech stack slide), ORGANIZERS.md if it affects the workshop flow, and `.devcontainer/` if it needs to be pre-installed.
 2. **Feature or code change?** → Update slides (relevant phase), README (workshop outline + tools reference), and ORGANIZERS.md (detailed flow).
 3. **Repo structure changed?** → Update the repository structure tree in README.md and the repo structure slide in slides.md.
 4. **Config or script changed?** → Update the Quick Reference Card in README.md and any CI/CD slides that reference commands.

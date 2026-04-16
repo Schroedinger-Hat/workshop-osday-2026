@@ -98,23 +98,157 @@ You also need:
 - A **GitHub account**
 - VS Code (or your preferred editor)
 
+> **💡 Alternatively:** use the **Dev Container** or **GitHub Codespace** — zero install needed!
+
 ---
 
-### What is Vite+?
+<!-- .slide: data-background="#44475a" -->
 
-The **unified toolchain** for web development — one CLI for everything:
+## Meet the Tools
+
+---
+
+### Git — Version Control
+
+Git tracks every change to your code and lets you collaborate without conflicts.
 
 ```bash
-vp dev     # Start the dev server
-vp test    # Run tests (Vitest)
-vp lint    # Lint code (Oxlint)
-vp fmt     # Format code (Oxfmt)
-vp check   # All of the above in one command
-vp build   # Build for production
+git clone <url>      # Download a repo
+git status           # See what changed
+git add .            # Stage all changes
+git commit -m "msg"  # Save a snapshot
+git push             # Upload to GitHub
 ```
 
-> No more juggling `vitest`, `eslint`, `prettier` separately.
-> Install once: `curl -fsSL https://vite.plus | bash`
+Key concepts:
+- **Repository** — a project tracked by Git
+- **Commit** — a snapshot of your code at a point in time
+- **Branch** — a parallel line of development
+- **Pull Request** — propose changes and get reviews before merging
+
+---
+
+### Node.js — JavaScript Runtime
+
+Node.js runs JavaScript/TypeScript **outside the browser**. Both the frontend and backend use it — one runtime for everything.
+
+```bash
+node --version   # Check version
+npm install      # Install dependencies from package.json
+npm ci           # Clean install (strict, for CI)
+npm run build    # Run a script defined in package.json
+```
+
+- **npm** — the package manager (installs libraries)
+- **package.json** — lists dependencies and scripts
+- **node_modules/** — where dependencies are installed
+
+---
+
+### Docker — Containers
+
+Docker packages your app into a **container** — a portable, self-contained environment that runs the same everywhere.
+
+```bash
+docker build -t myapp .       # Build an image from a Dockerfile
+docker run -p 3000:3000 myapp # Run a container
+docker compose up              # Start all services
+docker compose down            # Stop everything
+```
+
+Think of it as:
+- **Image** = blueprint (read-only)
+- **Container** = running instance of an image
+- **Dockerfile** = recipe to build an image
+- **Compose** = run multiple containers together
+
+---
+
+### Docker — Why Containers?
+
+| Without Docker | With Docker |
+|---|---|
+| "Works on my machine" 🤷 | Works **everywhere** ✅ |
+| Install deps manually | Everything bundled |
+| Different OS = different bugs | Same environment always |
+| Hard to reproduce | One command: `docker compose up` |
+
+---
+
+### Vite+ — Unified Toolchain
+
+One CLI to replace them all — testing, linting, formatting, dev server:
+
+```bash
+vp dev        # Start the dev server
+vp test run   # Run all tests (Vitest)
+vp lint       # Lint code (Oxlint — Rust, blazing fast)
+vp fmt        # Format code (Oxfmt)
+vp check      # fmt + lint + type-check in one shot
+```
+
+Install once:
+```bash
+curl -fsSL https://vite.plus | bash
+```
+
+---
+
+### Vite+ — One Config, All Tools
+
+Everything lives in a single `vite.config.ts`:
+
+```typescript
+import { defineConfig } from 'vite-plus';
+
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'node',
+  },
+  lint: {
+    options: { typeAware: true },
+  },
+  fmt: {},
+});
+```
+
+> No more juggling `vitest.config.ts`, `.eslintrc`, `.prettierrc` separately.
+
+---
+
+### Vite+ — Why It's Better
+
+| | Traditional Setup | With Vite+ |
+|---|---|---|
+| **Tools to install** | vitest + eslint + prettier + config plugins | `vp` (one binary) |
+| **Config files** | `vitest.config.ts`, `.eslintrc`, `.prettierrc`, … | `vite.config.ts` (one file) |
+| **Linting speed** | ESLint — JavaScript, ~seconds | Oxlint — Rust, **up to 100x faster** |
+| **Format speed** | Prettier — JavaScript | Oxfmt — Rust, **near-instant** |
+| **Learning curve** | Different CLI for each tool | One CLI: `vp <command>` |
+| **Version conflicts** | Tools may conflict with each other | All tested together |
+
+---
+
+### Vite+ — Before & After
+
+**Before** — 5 tools, 5 configs, 5 things to keep in sync:
+
+```bash
+npx vitest run              # test
+npx eslint src/             # lint
+npx prettier --write src/   # format
+npx tsc --noEmit            # type-check
+npx vite dev                # dev server
+```
+
+**After** — one tool, one command:
+
+```bash
+vp check   # format + lint + type-check
+vp test    # test
+vp dev     # dev server
+```
 
 ---
 

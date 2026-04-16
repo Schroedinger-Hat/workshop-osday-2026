@@ -22,6 +22,8 @@ Before the workshop, make sure you have installed:
 - [ ] GitHub Account
 - [ ] VS Code (or your preferred editor)
 
+> **💡 Zero-install alternative:** If you don't want to install anything locally, use the **Dev Container**. Open the repo in VS Code and click "Reopen in Container", or launch a **GitHub Codespace**. Everything is pre-installed. See [DEVCONTAINER.md](DEVCONTAINER.md) for details.
+
 ### Environment Test
 
 ```bash
@@ -72,6 +74,10 @@ workshop-osday-2026/
 │   │   ├── Dockerfile
 │   │   └── package.json
 │   └── docker-compose.yml
+├── .devcontainer/
+│   ├── devcontainer.json       # dev container configuration
+│   ├── docker-compose.yml      # services (devcontainer + postgres)
+│   └── post-create.sh          # setup script (installs deps + Vite+)
 ├── .github/
 │   └── workflows/
 │       ├── backend.yml         # path filter: application/backend/**
@@ -79,6 +85,7 @@ workshop-osday-2026/
 ├── slides.md                   # reveal-md presentation
 ├── README.md                   # participant guide
 ├── ORGANIZERS.md               # organizer guide
+├── DEVCONTAINER.md             # dev container documentation
 └── SETUP.md                    # setup log
 ```
 

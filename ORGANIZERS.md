@@ -91,6 +91,40 @@ Write the `.github/workflows/backend.yml` file from scratch with these steps:
 
 Send prerequisites to participants at least **3 days before** the workshop. The prerequisites checklist is in the [README.md](README.md).
 
+**Recommended message to participants:**
+
+> To join the workshop, you have two options:
+>
+> 1. **Local setup** — install Git, Node.js, Docker, and Vite+ (see README)
+> 2. **Zero-install** — use the Dev Container (just need VS Code + Docker, or use GitHub Codespaces with nothing installed)
+>
+> We recommend trying the local setup first. If you hit issues, the Dev Container is your safety net.
+
+---
+
+## Dev Container
+
+The repo includes a fully configured **VS Code Dev Container** (`.devcontainer/`). It provides the complete workshop environment with zero manual setup.
+
+See [DEVCONTAINER.md](DEVCONTAINER.md) for full documentation.
+
+### What it includes
+- Node.js 22, Docker-in-Docker, Git, GitHub CLI, Vite+ CLI
+- PostgreSQL 16 database (auto-started)
+- All VS Code extensions pre-installed
+- All npm dependencies pre-installed via `post-create.sh`
+
+### When to use it
+- **Participants who can't install prerequisites** — tell them to use Codespaces
+- **Live demo backup** — if your local machine has issues, open a Codespace
+- **Consistent environment** — everyone gets the exact same setup, no "works on my machine"
+
+### GitHub Codespaces (optional)
+If you want participants to use Codespaces:
+1. Enable Codespaces on the repository (Settings → Codespaces)
+2. Optionally configure a **prebuild** so containers start faster
+3. Free accounts get 60 hours/month of Codespaces — more than enough for a 90-min workshop
+
 ---
 
 ## Open Decisions to Discuss
