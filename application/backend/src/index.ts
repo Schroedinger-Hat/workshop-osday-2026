@@ -15,9 +15,7 @@ app.route("/api/links", links);
 // Redirect short URL
 app.get("/:slug", async (c) => {
   const slug = c.req.param("slug");
-  const result = await pool.query("SELECT url FROM links WHERE slug = $1", [
-    slug,
-  ]);
+  const result = await pool.query("SELECT url FROM links WHERE slug = $1", [slug]);
 
   if (result.rows.length === 0) {
     return c.json({ error: "Link not found" }, 404);

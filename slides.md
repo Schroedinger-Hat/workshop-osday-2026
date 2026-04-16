@@ -43,7 +43,7 @@ A **URL Shortener** with a visit counter
 | Frontend | Next.js (TypeScript) |
 | Backend | Hono (TypeScript) |
 | Database | PostgreSQL |
-| Testing | Vitest + Testcontainers |
+| Toolchain | **Vite+** (dev, test, lint, fmt — one tool) |
 | Containers | Docker + Docker Compose |
 | CI/CD | GitHub Actions |
 | Registry | GitHub Container Registry |
@@ -91,11 +91,30 @@ git --version          # Git
 node --version         # Node.js LTS
 docker --version       # Docker
 docker compose version # Docker Compose
+vp help                # Vite+ CLI
 ```
 
 You also need:
 - A **GitHub account**
 - VS Code (or your preferred editor)
+
+---
+
+### What is Vite+?
+
+The **unified toolchain** for web development — one CLI for everything:
+
+```bash
+vp dev     # Start the dev server
+vp test    # Run tests (Vitest)
+vp lint    # Lint code (Oxlint)
+vp fmt     # Format code (Oxfmt)
+vp check   # All of the above in one command
+vp build   # Build for production
+```
+
+> No more juggling `vitest`, `eslint`, `prettier` separately.
+> Install once: `curl -fsSL https://vite.plus | bash`
 
 ---
 
@@ -114,6 +133,7 @@ workshop-osday-2026/
 │   │   ├── tests/
 │   │   │   ├── unit/
 │   │   │   └── integration/
+│   │   ├── vite.config.ts    # Vite+ unified config
 │   │   └── Dockerfile
 │   └── docker-compose.yml
 ├── .github/workflows/
@@ -172,7 +192,7 @@ describe('visit counter', () => {
 ```
 
 ```bash
-npm test  # ❌ Test fails — feature doesn't exist
+vp test run  # ❌ Test fails — feature doesn't exist
 ```
 
 ---
@@ -184,7 +204,7 @@ npm test  # ❌ Test fails — feature doesn't exist
 - Return count in the API response
 
 ```bash
-npm test  # ✅ Test passes!
+vp test run  # ✅ Test passes!
 ```
 
 ---
@@ -210,6 +230,7 @@ import { PostgreSqlContainer } from '@testcontainers/postgresql';
 - **TDD** — write tests first, then code
 - **Unit tests** — fast, isolated, no external deps
 - **Integration tests** — real DB via Testcontainers
+- **Vite+** — `vp test` runs everything with zero config
 - **Confidence** — tests prove the feature works
 
 ---
@@ -273,11 +294,11 @@ jobs:
           node-version: 20
       - run: npm ci
         working-directory: application/backend
-      - run: npm run lint
+      - run: npx vp lint
         working-directory: application/backend
 ```
 
-> Catches style issues & errors early 🔍
+> Vite+ uses **Oxlint** — blazing fast, Rust-powered linting 🔍
 
 ---
 
@@ -294,11 +315,11 @@ jobs:
           node-version: 20
       - run: npm ci
         working-directory: application/backend
-      - run: npm test
+      - run: npx vp test run
         working-directory: application/backend
 ```
 
-> Unit + integration tests (Testcontainers runs in CI too!) 🧪
+> `vp test` wraps Vitest — Testcontainers runs in CI too! 🧪
 
 ---
 
@@ -504,6 +525,8 @@ curl http://localhost:3000
 
 ✅ **GitHub Actions** — build real pipelines
 
+✅ **Vite+** — unified toolchain (test, lint, fmt)
+
 ✅ **ghcr.io** — publish container images
 
 ---
@@ -518,6 +541,7 @@ fly deploy
 ```
 
 📚 **Resources:**
+- [Vite+ Docs](https://viteplus.dev)
 - [GitHub Actions Docs](https://docs.github.com/en/actions)
 - [Docker Best Practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 - [Testcontainers](https://testcontainers.com)

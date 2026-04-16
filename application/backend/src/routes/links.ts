@@ -15,7 +15,7 @@ links.post("/", async (c) => {
   const slug = nanoid();
   const result = await pool.query(
     "INSERT INTO links (slug, url) VALUES ($1, $2) RETURNING id, slug, url, visits, created_at",
-    [slug, url]
+    [slug, url],
   );
 
   return c.json(result.rows[0], 201);
@@ -24,7 +24,7 @@ links.post("/", async (c) => {
 // List all links
 links.get("/", async (c) => {
   const result = await pool.query(
-    "SELECT id, slug, url, visits, created_at FROM links ORDER BY created_at DESC"
+    "SELECT id, slug, url, visits, created_at FROM links ORDER BY created_at DESC",
   );
   return c.json(result.rows);
 });

@@ -39,24 +39,25 @@ A URL Shortener with a visit counter. Simple, understandable in 5 seconds, with 
 - Clone the `link-pulse` repo
 - `docker compose up` — the app is already working locally
 - Quick overview of the project structure
+- Introduce **Vite+**: install with `curl -fsSL https://vite.plus | bash`, show `vp help`
 
 ### Phase 2 — Adding the Micro-Feature with Tests (25 min)
 1. Show that the visit counter doesn't exist yet
 2. Write the **unit test** that fails (red)
 3. Implement the feature in the Hono backend (green)
 4. Write the **integration test** with Testcontainers (real PostgreSQL DB in a container)
-5. All tests pass locally
+5. All tests pass locally with `vp test run`
 
-> Concepts covered: TDD, difference between unit tests and integration tests, Testcontainers
+> Concepts covered: TDD, difference between unit tests and integration tests, Testcontainers, Vite+ unified toolchain
 
 ### Phase 3 — Writing the GitHub Actions Workflow (live) (25 min)
 Write the `.github/workflows/backend.yml` file from scratch with these steps:
 
 ```yaml
-# Step 1 — Lint
+# Step 1 — Lint (vp lint / Oxlint — Rust-powered, fast)
 # Why: ensures consistent style, catches errors before running tests
 
-# Step 2 — Test
+# Step 2 — Test (vp test / Vitest + Testcontainers)
 # Why: verifies the feature works and there are no regressions
 # Includes: unit tests + integration tests with Testcontainers
 
