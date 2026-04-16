@@ -114,3 +114,37 @@ Alternative options if a real deployment is desired:
 - **GitHub Pages:** only for the static frontend, loses the purpose of the Docker workflow
 
 **Recommendation:** Local deploy as default + mention Fly.io as a bonus for those who want to try.
+
+---
+
+## Presentation Slides
+
+The workshop presentation is built with [reveal-md](https://github.com/webpro/reveal-md) and lives in `slides.md` at the root of the repository.
+
+### Running the Slides
+
+```bash
+npx reveal-md slides.md
+```
+
+This opens the presentation at `http://localhost:1948` with the **Dracula** theme.
+
+### Slide Structure
+
+The presentation contains 25+ slides organized by workshop phase:
+
+| Phase | Content |
+|---|---|
+| Intro | Title, app overview, tech stack, roadmap |
+| Phase 1 — Setup | Clone & run, prerequisites, repo structure |
+| Phase 2 — Feature + TDD | Visit counter feature, Red/Green/Refactor, unit & integration tests with Testcontainers |
+| Phase 3 — CI/CD | GitHub Actions from scratch: lint → test → build → push to ghcr.io |
+| Phase 4 — Docker | Multi-stage Dockerfile, Docker Compose, service networking |
+| Phase 5 — Deploy | Full pipeline demo, local deploy, resources, Q&A |
+
+### Tips for Presenting
+
+- Use **arrow keys** or **swipe** to navigate
+- Press **S** to open speaker notes view
+- Press **F** for fullscreen
+- Press **Esc** for slide overview
