@@ -25,7 +25,7 @@ Before the workshop, make sure you have installed:
 
 ```bash
 git clone https://github.com/Schroedinger-Hat/workshop-osday-2026
-cd workshop-osday-2026
+cd workshop-osday-2026/application
 docker compose up
 # Open http://localhost:3000 — the app should appear
 ```
@@ -52,27 +52,30 @@ The monorepo uses a single runtime (Node.js), so you don't need to install Go, P
 ## Repository Structure
 
 ```
-link-pulse/
-├── frontend/               # Next.js app
-│   ├── src/
-│   ├── Dockerfile
-│   └── package.json
-├── backend/                # Hono API (TypeScript)
-│   ├── src/
-│   │   ├── routes/
-│   │   ├── db/
-│   │   └── index.ts
-│   ├── tests/
-│   │   ├── unit/
-│   │   └── integration/    # uses Testcontainers
-│   ├── Dockerfile
-│   └── package.json
-├── docker-compose.yml
+workshop-osday-2026/
+├── application/
+│   ├── frontend/               # Next.js app
+│   │   ├── src/
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   ├── backend/                # Hono API (TypeScript)
+│   │   ├── src/
+│   │   │   ├── routes/
+│   │   │   ├── db/
+│   │   │   └── index.ts
+│   │   ├── tests/
+│   │   │   ├── unit/
+│   │   │   └── integration/    # uses Testcontainers
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   └── docker-compose.yml
 ├── .github/
 │   └── workflows/
-│       ├── backend.yml     # path filter: backend/**
-│       └── frontend.yml    # path filter: frontend/**
-└── README.md
+│       ├── backend.yml         # path filter: application/backend/**
+│       └── frontend.yml        # path filter: application/frontend/**
+├── README.md                   # participant guide
+├── ORGANIZERS.md               # organizer guide
+└── SETUP.md                    # setup log
 ```
 
 ---
