@@ -18,6 +18,10 @@ echo "📦 Installing backend dependencies..."
 cd /workspaces/workshop-osday-2026/application/backend
 npm ci
 
+# ── Generate Prisma client ────────────────────────────────────────
+echo "📦 Generating Prisma client..."
+npx prisma generate
+
 # ── Install frontend dependencies ─────────────────────────────────
 echo "📦 Installing frontend dependencies..."
 cd /workspaces/workshop-osday-2026/application/frontend
@@ -28,5 +32,5 @@ echo "✅ Workshop environment ready!"
 echo ""
 echo "  Quick start:"
 echo "    cd application/backend && vp test run   # Run backend tests"
-echo "    cd application && docker compose up      # Start the full app"
+echo "    cd application/backend && vp dev         # Start backend dev server"
 echo ""

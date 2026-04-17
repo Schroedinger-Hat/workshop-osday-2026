@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { nanoid } from "../utils.js";
-import pool from "../db/index.js";
+import prisma from "../db/index.js";
 
 const links = new Hono();
 
@@ -13,20 +13,19 @@ links.post("/", async (c) => {
   }
 
   const slug = nanoid();
-  const result = await pool.query(
-    "INSERT INTO links (slug, url) VALUES ($1, $2) RETURNING id, slug, url, visits, created_at",
-    [slug, url],
-  );
+  const link = await prisma.link.create({
+    data: { slug, url },
+  });
 
-  return c.json(result.rows[0], 201);
+  return c.json(link, 201);
 });
 
 // List all links
 links.get("/", async (c) => {
-  const result = await pool.query(
-    "SELECT id, slug, url, visits, created_at FROM links ORDER BY created_at DESC",
-  );
-  return c.json(result.rows);
+  const allLinks = await prisma.link.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  return c.json(allLinks);
 });
 
 export default links;

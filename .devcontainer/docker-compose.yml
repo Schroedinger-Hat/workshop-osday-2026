@@ -5,11 +5,7 @@ services:
       - ..:/workspaces/workshop-osday-2026:cached
     command: sleep infinity
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: linkpulse
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/linkpulse
       NEXT_PUBLIC_API_URL: http://localhost:3001
 
   postgres:

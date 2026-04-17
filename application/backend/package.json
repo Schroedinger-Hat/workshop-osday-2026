@@ -8,24 +8,27 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "env -u DB_HOST node --env-file=.env --import tsx/esm --watch src/index.ts",
-    "build": "tsc",
+    "dev": "node --env-file=.env --import tsx/esm --watch src/index.ts",
+    "build": "tsc && npx prisma generate",
     "start": "node dist/index.js",
     "test": "vp test run",
     "test:watch": "vp test",
     "lint": "vp lint",
     "check": "vp check",
-    "fmt": "vp fmt"
+    "fmt": "vp fmt",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.14",
-    "hono": "^4.12.14",
-    "pg": "^8.20.0"
+    "@prisma/client": "^6.19.3",
+    "hono": "^4.12.14"
   },
   "devDependencies": {
+    "@testcontainers/postgresql": "^11.14.0",
     "@types/node": "^25.6.0",
-    "@types/pg": "^8.20.0",
     "eslint": "^10.2.0",
+    "prisma": "^6.19.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vite-plus": "latest",

@@ -1,4 +1,34 @@
-# Empty docker compose file, to be filled in during the workshop!
-# This file will be used to set up the application deployment 
-# including any necessary services such as databases, caching systems, or other
-# dependencies required for the application we'll be building.
+# Deployment docker compose — uses pre-built images from GitHub Container Registry
+# Run with: docker compose up
+services:
+  frontend:
+    image: ghcr.io/schroedinger-hat/workshop-osday-2026/fe:main
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+    depends_on:
+      - backend
+
+  backend:
+    image: ghcr.io/schroedinger-hat/workshop-osday-2026/be:main
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/linkpulse
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: linkpulse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

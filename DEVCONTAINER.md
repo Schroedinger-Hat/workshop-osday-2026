@@ -85,14 +85,15 @@ Defines two services:
 - **devcontainer**: the development environment itself, based on Microsoft's official TypeScript + Node.js 22 image. Your workspace is mounted as a volume.
 - **postgres**: a PostgreSQL 16 database, automatically started alongside the dev container. Data is persisted in a Docker volume.
 
-The dev container has environment variables pre-set (`DB_HOST`, `DB_PORT`, etc.) so the backend can connect to PostgreSQL without any configuration.
+The dev container has environment variables pre-set so the backend can connect to PostgreSQL without any configuration. The key variable is `DATABASE_URL`, which Prisma uses for all database operations.
 
 ### `post-create.sh` — Setup Script
 
 Runs once after the container is created:
 1. Installs the **Vite+ CLI** (`vp`) and adds it to PATH
 2. Runs `npm ci` in the **backend** directory
-3. Runs `npm ci` in the **frontend** directory
+3. Runs `npx prisma generate` in the **backend** directory (generates the Prisma client)
+4. Runs `npm ci` in the **frontend** directory
 
 After this script completes, all dependencies are installed and you can immediately start coding.
 
@@ -104,11 +105,7 @@ These are automatically set inside the dev container:
 
 | Variable | Value | Used By |
 |---|---|---|
-| `DB_HOST` | `postgres` | Backend — database connection |
-| `DB_PORT` | `5432` | Backend — database connection |
-| `DB_NAME` | `linkpulse` | Backend — database name |
-| `DB_USER` | `postgres` | Backend — database credentials |
-| `DB_PASSWORD` | `postgres` | Backend — database credentials |
+| `DATABASE_URL` | `postgresql://postgres:postgres@postgres:5432/linkpulse` | Backend — Prisma database connection |
 | `NEXT_PUBLIC_API_URL` | `http://localhost:3001` | Frontend — API endpoint |
 
 ---
