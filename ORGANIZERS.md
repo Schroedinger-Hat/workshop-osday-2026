@@ -1,7 +1,7 @@
 # Workshop: From Git to Deploy — Organizer Guide
 
 > Working document for workshop organizers
-> Conference: OSDev — 11:30 / 13:00 (90 minutes)
+> Conference: OSDay — 11:30 / 13:00 (90 minutes)
 > Audience: junior developers and intermediate professionals
 
 ---

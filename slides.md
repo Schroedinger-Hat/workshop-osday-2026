@@ -12,15 +12,15 @@ revealOptions:
 
 # From Git to Deploy
 
-### Workshop — OSDev 2026
+### Workshop — OSDay 2026
 
-Build, test, containerize, and ship a real app
-
-<small>90 min</small>
+<small>⏱️ 90 minutes</small>
 
 ---
 
-## What We'll Build
+## What We'll Build?
+
+---
 
 ### `link-pulse`
 
@@ -30,12 +30,19 @@ A **URL Shortener** with a visit counter
 - Redirect to original URLs
 - **Live feature:** visit counter per link
 
-> Simple enough to understand in 5 seconds,
-> rich enough to write meaningful tests.
-
 ---
 
-## Tech Stack
+## Workshop Roadmap
+
+| Phase | Topic | Time |
+|---|---|---|
+| 1 | Introduction & setup | 10 min |
+| 2 | Feature + Tests (TDD) | 25 min |
+| 3 | CI/CD Pipeline | 25 min |
+| 4 | Dockerfile & Compose | 15 min |
+| 5 | Deploy & Q&A | 15 min |
+
+---
 
 | Component | Technology |
 |---|---|
@@ -49,17 +56,6 @@ A **URL Shortener** with a visit counter
 
 ---
 
-## Workshop Roadmap
-
-| Phase | Topic | Time |
-|---|---|---|
-| 1 | Setup & Introduction | 10 min |
-| 2 | Feature + Tests (TDD) | 25 min |
-| 3 | CI/CD Pipeline | 25 min |
-| 4 | Dockerfile & Compose | 15 min |
-| 5 | Deploy & Q&A | 15 min |
-
----
 
 <!-- .slide: data-background="#44475a" -->
 
@@ -68,13 +64,6 @@ A **URL Shortener** with a visit counter
 ## Setup & Introduction
 
 <small>⏱ 10 minutes</small>
-
----
-
-# TODO: add context of prerequisites, tools, and the app we're building
-# and all technlogies involved
-
-# TODO: add prisma to prerequisites check and to the stack
 
 ---
 
@@ -504,18 +493,6 @@ jobs:
 
 > Image available for deployment 🚀
 
----
-
-## TODO: Key Concepts of Versioning
-##  explain conventional commits, semantic versioning, and how to automate version bumps and changelogs in CI/CD pipelines
-
----
-
-## TODO: Retag main image
-
----
-
-## TODO: slide sulla tipologia di tag
 
 ---
 
@@ -544,8 +521,6 @@ jobs:
 <!-- .slide: data-background="#44475a" -->
 
 # Phase 4
-
-## TODO: spostare prima di phase 3
 
 ## Dockerfile & Docker Compose
 

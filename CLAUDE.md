@@ -20,7 +20,7 @@ When making any change to the project (code, config, slides, or structure), **al
 
 ## Project Overview
 
-- **Workshop:** "From Git to Deploy" — 90-minute workshop at OSDev 2026
+- **Workshop:** "From Git to Deploy" — 90-minute workshop at OSDay 2026
 - **App:** `link-pulse` — a URL shortener with visit counter
 - **Stack:** Next.js frontend, Hono backend (TypeScript), PostgreSQL, Docker
 - **Toolchain:** Vite+ (`vp` CLI) for dev, test, lint, format
