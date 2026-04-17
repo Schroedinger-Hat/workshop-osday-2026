@@ -1,6 +1,5 @@
 ---
 title: "From Git to Deploy"
-theme: dracula
 revealOptions:
   transition: slide
   controls: true
