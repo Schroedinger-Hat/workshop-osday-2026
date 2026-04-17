@@ -3,6 +3,29 @@
 > Conference: OSDev — 11:30 / 13:00 (90 minutes)
 > Audience: junior developers and intermediate professionals
 
+In this workshop we will start from the fundamentals of Git, covering the
+essential concepts needed to manage a repository effectively. We will explore
+best practices for collaboration, licensing, documentation, and repository
+organization.
+
+Participants will learn the main Git commands and workflows, along with common
+interactions on Git hosting platforms such as pull/merge requests and code
+reviews.
+
+Once a shared baseline is established, we will move on to topics such as code
+quality, automated testing, Continuous Integration (CI), and Continuous Delivery
+(CD).
+
+The final part of the workshop will cover containerization and the deployment of
+our code.
+
+This workshop is intended for junior developers approaching these topics for the
+first time, as well as intermediate profiles who want to consolidate their
+knowledge.
+
+Having a computer with a local development environment is recommended. An
+internet connection will also be helpful.
+
 ---
 
 ## The App: `link-pulse`
