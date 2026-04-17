@@ -72,6 +72,13 @@ A **URL Shortener** with a visit counter
 
 ---
 
+# TODO: add context of prerequisites, tools, and the app we're building
+# and all technlogies involved
+
+# TODO: add prisma to prerequisites check and to the stack
+
+---
+
 ### Clone & Run
 
 ```bash
@@ -500,6 +507,20 @@ jobs:
 
 ---
 
+## TODO: Key Concepts of Versioning
+##  explain conventional commits, semantic versioning, and how to automate version bumps and changelogs in CI/CD pipelines
+
+---
+
+## TODO: Retag main image
+
+---
+
+## TODO: slide sulla tipologia di tag
+
+---
+
+
 ### The Full Pipeline
 
 ```text
@@ -524,6 +545,8 @@ jobs:
 <!-- .slide: data-background="#44475a" -->
 
 # Phase 4
+
+## TODO: spostare prima di phase 3
 
 ## Dockerfile & Docker Compose
 
@@ -664,15 +687,6 @@ curl http://localhost:3000
 ✅ **ghcr.io** — publish container images
 
 ---
-
-### Want to Go Further?
-
-🌐 **Real deployment** — try [Fly.io](https://fly.io) (free tier)
-
-```bash
-fly launch
-fly deploy
-```
 
 📚 **Resources:**
 - [Vite+ Docs](https://viteplus.dev)
