@@ -12,6 +12,9 @@ app.use("/*", cors());
 // API routes
 app.route("/api/links", links);
 
+// Set index page
+app.get("/", (c) => c.json({ status: "HELLO WORLD!" }));
+
 // Redirect short URL
 app.get("/:slug", async (c) => {
   const slug = c.req.param("slug");
@@ -31,7 +34,7 @@ const port = Number(process.env.PORT) || 3001;
 
 initDb().then(() => {
   console.log("Database initialized");
-  serve({ fetch: app.fetch, port }, () => {
+  serve({ fetch: app.fetch, port, hostname: "0.0.0.0" }, () => {
     console.log(`Backend running on http://localhost:${port}`);
   });
 });

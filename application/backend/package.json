@@ -8,7 +8,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "vp dev",
+    "dev": "env -u DB_HOST node --env-file=.env --import tsx/esm --watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "vp test run",

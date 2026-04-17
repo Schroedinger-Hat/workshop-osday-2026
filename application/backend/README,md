@@ -1,0 +1,5 @@
+# Backend
+## Manual start
+
+- Copy `.env.example` to `.env`
+- Run `vp run dev` to start the server in development mode
