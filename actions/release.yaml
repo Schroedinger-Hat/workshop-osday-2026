@@ -1,0 +1,35 @@
+name: CI publish release
+
+on:
+  push:
+    tags:
+      - "be-v*"
+      - "fe-v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Vars
+        id: get_vars
+        run: |
+          TARGET=$(echo ${{ github.ref_name }} | sed 's/-v.*//')
+          echo "image=ghcr.io/${{ github.repository }}/$TARGET" >> $GITHUB_OUTPUT
+          echo "preprd_tag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "prd_tag=$(echo ${{ github.ref_name }} | sed 's/.*-v/v/')" >> $GITHUB_OUTPUT
+      - name: Release
+        run: |
+          docker pull ${{ steps.get_vars.outputs.image }}:${{ steps.get_vars.outputs.preprd_tag }}
+          docker tag ${{ steps.get_vars.outputs.image }}:${{ steps.get_vars.outputs.preprd_tag }} ${{ steps.get_vars.outputs.image }}:${{ steps.get_vars.outputs.prd_tag }}
+          docker push ${{ steps.get_vars.outputs.image }}:${{ steps.get_vars.outputs.prd_tag }}
