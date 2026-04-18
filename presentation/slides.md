@@ -38,14 +38,13 @@ A **URL Shortener** with a visit counter
 
 ## Workshop Roadmap
 
-| Phase | Topic |
-|---|---|
-| 1 | Introduction and local configuration |
-| 2 | TDD — Adding a Feature |
-| 3 | Dockerization |
-| 4 | GitHub Actions |
-| 5 | Docker Compose Deploy |
-| 6 | More features, Q&A |
+| Phase | Topic | Time |
+|---|---|---|
+| 1 | Intro and config | 15 min |
+| 2 | TDD — Adding a Feature | 15 min |
+| 3 | Dockerization | 10 min |
+| 4 | GitHub Actions | 10 min |
+| 5 | Docker Compose Deploy | 10 min |
 
 ---
 
@@ -81,26 +80,18 @@ A **URL Shortener** with a visit counter
 
 ## Project
 
-The project is a URL shortener with
-a backend API, a frontend UI, and a
-PostgreSQL database.
-
----
-
-### What is a URL Shortener?
-
+The project is a URL shortener
 
 ```text
 Input:  https://very-long-website.com/articles/2026/my-super-long-article
 Output: https://lnk.sh/abc1234
 ```
 
-- takes a long URL and gives you a short one.
-- visiting the short URL they get **redirected**
-
 ---
 
-Simple concept, real-world engineering:
+## What we need
+
+- A **local environment** to run the app
 - A **backend** to store and resolve links
 - A **frontend** to create and view links
 - A **database** to persist everything
@@ -111,6 +102,7 @@ Simple concept, real-world engineering:
 
 ---
 
+# GIT
 ## Version control
 
 ---
@@ -135,23 +127,7 @@ project_FINAL_REAL.zip  ← 😩
 
 ---
 
-### Git — Version Control
-
-**Git** — most popular version control.
-
-```bash
-git clone <url>      # Download a repo
-git status           # See what changed
-git add .            # Stage all changes
-git commit -m "msg"  # Save a snapshot
-git push             # Upload to GitHub
-```
----
-
-Key concepts:
-- **Repository** — a project tracked by Git
-- **Commit** — a snapshot of your code
-- **Branch** — a parallel line of development
+You need to fork this project
 
 ---
 
@@ -173,10 +149,17 @@ someone else's repository.
 
 ```bash
 git clone https://github.com/<your-username>/workshop-osday-2026
-cd workshop-osday-2026
 ```
 
 Now you have the full project on your machine! 🎉
+
+---
+
+## Why fork instead of clone?
+
+- Keeps your changes separate from the original
+- Allows proposing changes via Pull Requests
+- Easier to sync
 
 ---
 
@@ -185,27 +168,59 @@ Now you have the full project on your machine! 🎉
 A **pre-configured dev environment**
 running inside a Docker container.
 
-| | Local Install | Dev Container |
-|---|---|---|
-| Setup time | 30+ min (install Node, Docker, etc.) | ~2 min (auto) |
-| "Works on my machine" | Maybe 🤷 | Always ✅ |
-| Consistent environment | No | Yes |
-| Requires Docker | No | Yes |
+---
 
-> We'll learn more about Docker in Phase 6!
+### ⏱️ Setup Time
+
+| Local Install | 30+ min |
+|---|---|
+| Dev Container | ~2 min |
+
+No manual installs, no config problems, no headaches.
 
 ---
 
-### Dev Container vs Local
+### 🤷 "Works on My Machine"
 
-**Option A — Dev Container (recommended)**
-- VS Code → "Reopen in Container"
+| Local Install | 🤷 |
+|---|---|
+| Dev Container | ✅ |
+
+Local = your OS, your versions, your quirks.
+
+Dev Container = **same environment for everyone**.
+
+---
+
+### 🔁 Consistent Environment
+
+| Local Install | No |
+|---|---|
+| Dev Container | Yes |
+
+New team member? Senior dev? CI runner?
+
+All use the **exact same environment**.
+
+---
+
+### 🐳 Requires Docker
+
+| Local Install | No |
+|---|---|
+| Dev Container | Yes |
+
+The trade-off: Docker must be installed.
+
+But Docker is already a workshop prerequisite — and you get **everything else for free**.
+
+---
+
+### Setup Dev Container
+
+- VS Code → "Reopen in Container" command
 - Or **GitHub Codespaces** (cloud)
 - Pre-installed: Node, Git, Vite+, PG
-
-**Option B — Local install**
-- Install Git, Node.js, Docker, Vite+ manually
-- More control, but more setup
 
 ---
 
@@ -216,86 +231,29 @@ running inside a Docker container.
 3. Wait ~2 minutes for the build
 4. Open a terminal — you're ready! ✅
 
-Or via **Codespaces**:
-1. GitHub → **Code** → **Codespaces**
-2. A full VS Code opens in your browser
-
 ---
-
-### Read the Code! 📖
-
-```text
-workshop-osday-2026/
-├── application/
-│   ├── frontend/          # Next.js app
-│   │   ├── src/
-│   │   └── Dockerfile
-│   ├── backend/           # Hono API
-│   │   ├── src/
-│   │   │   ├── routes/
-│   │   │   └── db/
-│   │   ├── prisma/
-│   │   │   └── schema.prisma
-│   │   ├── tests/
-│   │   └── Dockerfile
-│   └── deployment/
-│       └── docker-compose.yml
-├── actions/               # Pre-made GitHub Actions
-├── .devcontainer/
-└── README.md
-```
-
-Take 2 minutes to explore! 🔍
-
----
-
 <!-- .slide: data-background="#44475a" -->
 
-## Backend
+## ⏱️ TIMER 5min
+
+Clone the repo and read the code
 
 ---
 
-### What is a Web API?
-
-An **API** lets programs talk to
-each other over HTTP.
-
-```text
-Frontend (browser)                 Backend (server)
-     │                                  │
-     │  POST /api/links                 │
-     │  { url: "https://..." }   ──▶    │  Create link
-     │                                  │
-     │  ◀──  { slug: "abc1234" }        │  Return result
-```
-
-- **REST** = a convention for organizing APIs
-- Uses HTTP methods: `GET`, `POST`, `PUT`, `DELETE`
+# Hono
+## Our Backend Framework
 
 ---
 
-### What is a Web Framework?
+**Hono**
 
-Handles **routing, requests, responses**
-so you don't write everything from scratch.
-
-Without a framework:
-```javascript
-// Parse URL manually, handle HTTP methods, manage headers...
-```
-
-With a framework:
-```typescript
-app.get('/api/links', (c) => c.json(links));
-app.post('/api/links', (c) => { /* create link */ });
-```
+- Modern alternative to Express.js
+- Built for TypeScript from day one
+- Tiny footprint, very fast
 
 ---
 
-### Hono — Our Backend Framework
-
-**Hono** — lightweight, fast,
-TypeScript-first web framework.
+**Hono**
 
 ```typescript
 import { Hono } from 'hono';
@@ -309,11 +267,6 @@ app.get('/:slug', async (c) => {
   return c.redirect(link.url, 302);
 });
 ```
-
-- Modern alternative to Express.js
-- Built for TypeScript from day one
-- Tiny footprint, very fast
-
 ---
 
 ### Our API Code
@@ -335,9 +288,10 @@ application/backend/
 
 ---
 
-### What is a Toolchain?
+## Vite plus
+### Your open source Toolchain
 
-Tools to **develop, test, lint, format**.
+---
 
 Traditional approach:
 ```bash
@@ -375,64 +329,73 @@ curl -fsSL https://vite.plus | bash
 ```bash
 cd application/backend
 npm ci          # Install dependencies
-vp dev          # Start dev server on http://localhost:3001
+vp run dev          # Start dev server on http://localhost:3001
 ```
 
 Test it:
 ```bash
 curl http://localhost:3001/
-# → { "status": "ok" }
+# → { "status": "Hello world" }
 ```
 
 ---
 
 <!-- .slide: data-background="#44475a" -->
 
+## ⏱️ TIMER 5min
 
-
-## Frontend
-
----
-
-### What is Server-Side Rendering?
-
-**SSR** = server generates HTML
-before sending it to the browser.
-
-| | Client-Side (SPA) | Server-Side (SSR) |
-|---|---|---|
-| First load | Blank → JS loads → content | Content immediately |
-| SEO | Poor (bots see blank page) | Great (full HTML) |
-| Performance | Slower first paint | Faster first paint |
+Run the backend and test it
 
 ---
 
-### What is a Frontend Framework?
-
-Build **user interfaces** with
-reusable components.
-
-```jsx
-// A React component
-function LinkCard({ slug, url, visits }) {
-  return (
-    <div>
-      <a href={`/${slug}`}>/{slug}</a>
-      <p>{url}</p>
-      <span>{visits} visits</span>
-    </div>
-  );
-}
-```
+## Next.js
+### Our Frontend Framework
 
 ---
 
-### Next.js — Our Frontend
+### What is
+### Server-Side Rendering (SSR)?
 
-**Next.js** — React framework for
-routing, SSR, and optimized builds.
+---
 
-Why Next.js?
+
+SSR — render HTML on the server for each request
+instead of client-side JavaScript.
+
+
+---
+
+### 🖥️ First Load
+
+| Client-Side (SPA) | Blank → JS loads → content |
+|---|---|
+| Server-Side (SSR) | Content immediately |
+
+
+---
+
+### 🔍 SEO
+
+| Client-Side (SPA) | Poor (bots see blank page) |
+|---|---|
+| Server-Side (SSR) | Great (full HTML) |
+
+Search engines index your content — not an empty `<div>`.
+
+---
+
+### ⚡ Performance
+
+| Client-Side (SPA) | Slower first paint |
+|---|---|
+| Server-Side (SSR) | Faster first paint |
+
+Less JavaScript to parse before the user sees something.
+
+---
+
+### Why Next.js?
+
 - **File-based routing** — easy URLs
 - **SSR** — fast load, great SEO
 - **API routes** — built-in endpoints
@@ -459,8 +422,8 @@ application/frontend/
 
 ```bash
 cd application/frontend
-npm ci          # Install dependencies
-npm run dev     # Start dev server on http://localhost:3000
+npm install           # Install dependencies
+vp run dev            # Start dev server on http://localhost:3000
 ```
 
 Open http://localhost:3000 🌐
@@ -471,16 +434,18 @@ Open http://localhost:3000 🌐
 
 <!-- .slide: data-background="#44475a" -->
 
+## ⏱️ TIMER 5min
 
+Run the frontend and open the app
+
+---
 
 ## Database
 
 ---
 
-### What is a Relational Database?
+### Database
 
-Stores data in **tables** (rows + columns)
-linked by relationships.
 
 ```sql
 Table: links
@@ -492,8 +457,6 @@ Table: links
 └────┴─────────┴──────────────────────┴────────┘
 ```
 
-Queried with **SQL**.
-
 ---
 
 ### PostgreSQL
@@ -504,49 +467,55 @@ open-source relational database.
 - Used by Instagram, Spotify, Netflix
 - JSON, full-text search, extensions
 
-```bash
-# Run Postgres with Docker (standalone)
-docker run -d \
-  --name postgres \
-  -e POSTGRES_DB=linkpulse \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -p 5432:5432 \
-  -v pgdata:/var/lib/postgresql/data \
-  postgres:16-alpine
-```
+---
+
+We will use an ORM to interact with PostgreSQL
 
 ---
 
 ### What is an ORM?
 
-**ORM** (Object-Relational Mapping) —
+**ORM** (Object-Relational Mapping)
+
+---
+
 use **code objects** instead of raw SQL.
 
 Benefits: **type safety**, **migrations**
 
 ---
 
-### ORM vs Raw SQL — Create & Read
+### ➕ Create
 
-| | Raw SQL | ORM (Prisma) |
-|---|---|---|
-| Create | `INSERT INTO links (slug, url) VALUES (...)` | `prisma.link.create({ data: { slug, url } })` |
-| Read | `SELECT * FROM links WHERE slug = 'abc'` | `prisma.link.findUnique({ where: { slug } })` |
+| Raw SQL | `INSERT INTO links (slug, url) VALUES (...)` |
+|---|---|
+| ORM (Prisma) | `prisma.link.create({ data: { slug, url } })` |
 
----
-
-### ORM vs Raw SQL — Update
-
-| | Raw SQL | ORM (Prisma) |
-|---|---|---|
-| Update | `UPDATE links SET visits = visits + 1 WHERE slug = 'abc'` | `prisma.link.update({ where: { slug }, data: { visits: { increment: 1 } } })` |
+Type-safe, no string concatenation, no SQL injection risk.
 
 ---
 
-### Prisma — Our ORM
+### 🔎 Read
 
-**Prisma** is a modern TypeScript ORM for Node.js.
+| Raw SQL | `SELECT * FROM links WHERE slug = 'abc'` |
+|---|---|
+| ORM (Prisma) | `prisma.link.findUnique({ where: { slug } })` |
+
+Editor autocompletes fields — typos caught at compile time.
+
+---
+
+### ✏️ Update
+
+| Raw SQL | `UPDATE links SET visits = visits + 1 WHERE slug = 'abc'` |
+|---|---|
+| ORM (Prisma) | `prisma.link.update({ where: { slug }, data: { visits: { increment: 1 } } })` |
+
+Atomic increments with no raw arithmetic in strings.
+
+---
+
+### Prisma
 
 1. Define your schema in `prisma/schema.prisma`
 2. Generate a type-safe client
@@ -562,16 +531,6 @@ npx prisma db push    # Sync schema to database
 ### Prisma Schema
 
 ```prisma
-// prisma/schema.prisma
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-}
 
 model Link {
   id        Int      @id @default(autoincrement())
@@ -621,31 +580,15 @@ const all = await prisma.link.findMany({
 ### Database in the Dev Container
 
 Dev container **includes PostgreSQL** —
-no setup needed!
+no setup needed! Battery included!
 
-```yaml
-# .devcontainer/docker-compose.yml
-services:
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: linkpulse
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-```
-
-Environment variable pre-set:
 ```
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/linkpulse
 ```
 
 ---
 
-<!-- .slide: data-background="#44475a" -->
-
-
-
-## Manual Run
+## Env variable and files
 
 ---
 
@@ -692,7 +635,7 @@ cd application/backend
 npx prisma db push
 
 # Start the backend
-vp dev
+vp run dev
 ```
 
 In another terminal:
@@ -700,8 +643,24 @@ In another terminal:
 cd application/frontend
 
 # Start the frontend
-npm run dev
+vp run dev
 ```
+---
+
+### Check the Application ✅
+
+1. Open [http://localhost:3000](http://localhost:3000)
+2. Create a short URL
+3. Click the short URL → it redirects!
+
+---
+
+<!-- .slide: data-background="#44475a" -->
+
+## ⏱️ TIMER 5min
+
+Run the command
+
 
 ---
 
@@ -735,17 +694,11 @@ curl http://localhost:3001/api/links
 
 ---
 
-<!-- .slide: data-background="#44475a" -->
-
-
-
 ## Adding a Feature with TDD
 
 ---
 
 ### What is TDD?
-
-**TDD** — write tests **before** code.
 
 ```text
 1. 🔴 Red    — Write a failing test
@@ -753,19 +706,55 @@ curl http://localhost:3001/api/links
 3. 🔵 Refactor — Clean up, keep tests green
 ```
 
-Repeat for every feature!
+---
+
+### 📅 Tests Actually Exist
+
+| Test After | "I'll write tests later" → never |
+|---|---|
+| Test First (TDD) | Tests exist from the start |
+
+Writing tests after is a promise you rarely keep.
 
 ---
 
-### Why Test First?
+### 🔄 Who Fits Whom?
 
-| Test After | Test First (TDD) |
+| Test After | Tests fit the code |
 |---|---|
-| "I'll write tests later" → never | Tests exist from the start |
-| Tests fit the code | Code fits the tests |
-| May miss edge cases | Forces you to think about design |
-| No safety net while coding | Instant feedback loop |
-| Hard to know when you're done | Test passes = feature done ✅ |
+| Test First (TDD) | Code fits the tests |
+
+Tests written after tend to rubber-stamp the implementation instead of validating it.
+
+---
+
+### 🧠 Design Thinking
+
+| Test After | May miss edge cases |
+|---|---|
+| Test First (TDD) | Forces you to think about design |
+
+Writing the test first makes you think about the API before writing it.
+
+---
+
+### ⚡ Feedback Loop
+
+| Test After | No safety net while coding |
+|---|---|
+| Test First (TDD) | Instant feedback loop |
+
+Every save tells you if you broke something.
+
+---
+
+### ✅ Done Means Done
+
+| Test After | Hard to know when you're done |
+|---|---|
+| Test First (TDD) | Test passes = feature done ✅ |
+
+No guessing. Green test = shipped.
 
 ---
 
@@ -792,7 +781,7 @@ app.get('/:slug', async (c) => {
 
 ---
 
-### Step 1 — Write the Failing Test (Red 🔴)
+### Write the Failing Test 🔴
 
 ```typescript
 // tests/unit/links.test.ts
@@ -829,7 +818,7 @@ code only has `// TODO`
 
 ---
 
-### Step 2 — Make It Pass (Green 🟢)
+### Make It Pass 🟢
 
 Edit `src/index.ts` — add the increment:
 
@@ -868,16 +857,60 @@ vp test run tests/unit/
 
 ---
 
-### What are Unit Tests vs Integration Tests?
+Rember to commit and push your changes!
 
-| | Unit Tests | Integration Tests |
-|---|---|---|
-| Scope | Single function/module | Multiple components together |
-| Dependencies | Mocked | Real (database, network) |
-| Speed | Milliseconds | Seconds |
-| Confidence | Logic is correct | System works end-to-end |
+---
 
-We need **both**!
+There are many types of tests — unit, integration, end-to-end...  Each one
+validates different assumptions and monitors different aspects of your code.
+
+---
+
+### 🎯 Scope
+
+| Unit Tests | Single function/module |
+|---|---|
+| Integration Tests | Multiple components together |
+| E2E Tests | Full user flow in a real browser |
+| Smoke Tests | Critical paths only, after deploy |
+
+Unit tests zoom in. Smoke tests just check the lights are on.
+
+---
+
+### 🔌 Dependencies
+
+| Unit Tests | Mocked |
+|---|---|
+| Integration Tests | Real (database, network) |
+| E2E Tests | Real browser + full stack |
+| Smoke Tests | Real production environment |
+
+Unit tests fake the world. E2E tests use all of it.
+
+---
+
+### ⏱️ Speed
+
+| Unit Tests | Milliseconds |
+|---|---|
+| Integration Tests | Seconds |
+| E2E Tests | Minutes |
+| Smoke Tests | Seconds (minimal set) |
+
+The faster the test, the tighter the feedback loop.
+
+---
+
+### 🛡️ Confidence
+
+| Unit Tests | Logic is correct |
+|---|---|
+| Integration Tests | Components work together |
+| E2E Tests | User flows work in a real browser |
+| Smoke Tests | App is alive after deploy |
+
+We need **all of them** — at the right level.
 
 ---
 
@@ -961,7 +994,11 @@ describe('delete link', () => {
 
 <!-- .slide: data-background="#44475a" -->
 
+## ⏱️ TIMER 15min
 
+Implement the visit counter with TDD
+
+---
 
 ## Dockerization
 
@@ -973,8 +1010,8 @@ Package your app with **everything**
 into a single, portable unit.
 
 ```text
-Your App + Node.js + Dependencies + Config
-         = One Container 📦
+Your App + Node.js + Dependencies + Config = One Container 📦
+
 ```
 
 - Runs the same on any machine
@@ -988,34 +1025,55 @@ Your App + Node.js + Dependencies + Config
 **Docker** — the most popular tool
 for building and running containers.
 
-```bash
-docker build -t myapp .       # Build an image from a Dockerfile
-docker run -p 3000:3000 myapp # Run a container
-docker ps                      # List running containers
-docker stop <id>               # Stop a container
-```
-
-Think of it as:
-- **Image** = blueprint (read-only)
-- **Container** = running instance of an image
-- **Dockerfile** = recipe to build an image
-
 ---
 
-### Why Containers?
+### 🤷 "Works on My Machine"
 
-| Without Docker | With Docker |
+| Without Docker | "Works on my machine" 🤷 |
 |---|---|
-| "Works on my machine" 🤷 | Works **everywhere** ✅ |
-| Install deps manually | Everything bundled |
-| Different OS = different bugs | Same environment always |
-| Hard to reproduce | One command: `docker run` |
+| With Docker | Works **everywhere** ✅ |
+
+Same image runs on your laptop, CI, and production.
 
 ---
 
-### Your Dev Container IS Docker! 🤯
+### 📦 Dependencies
 
-Remember the dev container from Phase 0?
+| Without Docker | Install deps manually |
+|---|---|
+| With Docker | Everything bundled |
+
+No more "did you install the right Node version?"
+
+---
+
+### 🐛 Environment Differences
+
+| Without Docker | Different OS = different bugs |
+|---|---|
+| With Docker | Same environment always |
+
+What runs on Linux runs on Mac runs in CI — identically.
+
+---
+
+### 🔁 Reproducibility
+
+| Without Docker | Hard to reproduce |
+|---|---|
+| With Docker | One command: `docker run` |
+
+Anyone can spin up the exact same app with a single command.
+
+---
+
+## Does it ring a bell?
+
+---
+
+### Your Dev Container IS Docker!
+
+Remember the dev container from beginning?
 
 ```text
 .devcontainer/
@@ -1030,7 +1088,7 @@ Dev container = Docker + VS Code
 
 ---
 
-### What is a Dockerfile?
+### Dockerfile
 
 A **recipe** to build a Docker image.
 
@@ -1125,7 +1183,11 @@ That's a lot of commands... 😅
 
 ---
 
-### What is Orchestration?
+Could it be simpler? Yes, with Docker Compose!
+
+---
+
+### Docker compose
 
 Managing **multiple containers**
 that work together.
@@ -1201,9 +1263,13 @@ docker compose down
 
 <!-- .slide: data-background="#44475a" -->
 
+## ⏱️ TIMER 10min
 
+Build and run the Docker images
 
-## GitHub Actions
+---
+
+## GitHub Actions and CI/CD
 
 ---
 
@@ -1230,14 +1296,6 @@ A **CI/CD platform** built into GitHub.
 ```text
 Push code → GitHub runs your workflow → Results on PR
 ```
-
-Key concepts:
-- **Workflow** — a YAML file in `.github/workflows/`
-- **Trigger** — what starts it (`push`, `pull_request`)
-- **Job** — a set of steps on a virtual machine
-- **Step** — a single command or action
-- **Action** — reusable unit of code
-
 ---
 
 ### Our Pre-Made Actions
@@ -1315,11 +1373,11 @@ watch the pipeline run! 🚀
   Push to main
        │
        ▼
-  ┌──────────┐    ┌──────────┐
-  │ Build BE │    │ Build FE │    (parallel)
-  └──────────┘    └──────────┘
-       │               │
-       ▼               ▼
+  ┌──────────┐ ┌──────────┐
+  │ Build BE │ │ Build FE │
+  └──────────┘ └──────────┘
+       │            │
+       ▼            ▼
   ┌──────────────────────────┐
   │   Push to ghcr.io 📦     │
   └──────────────────────────┘
@@ -1329,6 +1387,14 @@ watch the pipeline run! 🚀
 
 <!-- .slide: data-background="#44475a" -->
 
+## ⏱️ TIMER 10min
+
+- Copy the workflows and push to GitHub
+- Watch the pipeline run in the Actions tab
+
+---
+
+<!-- .slide: data-background="#44475a" -->
 
 
 ## Docker Compose Deploy
@@ -1414,23 +1480,18 @@ No source code needed — just compose! 🐳
 
 ### What You Learned Today
 
-✅ **Git** — version control, fork, clone, push
-
-✅ **Backend + Frontend** — Hono, Next.js, Prisma
-
-✅ **TDD** — write tests first, then implement
+- ✅ **Git** — version control, fork, clone, push
+- ✅ **Backend + Frontend** — Hono, Next.js, Prisma
+- ✅ **TDD** — write tests first, then implement
 
 ---
 
 ### What You Learned Today (cont.)
 
-✅ **Docker** — multi-stage builds
-
-✅ **Compose** — orchestrate services
-
-✅ **GitHub Actions** — automate CI/CD
-
-✅ **ghcr.io** — publish & deploy images
+- ✅ **Docker** — multi-stage builds
+- ✅ **Compose** — orchestrate services
+- ✅ **GitHub Actions** — automate CI/CD
+- ✅ **ghcr.io** — publish & deploy images
 
 ---
 
