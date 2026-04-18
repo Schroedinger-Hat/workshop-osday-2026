@@ -1349,6 +1349,44 @@ jobs:
 
 ---
 
+### Image Tagging — Best Practices
+
+Tag images **meaningfully**, not just `latest`:
+
+```yaml
+# From our ci.yaml — metadata-action
+tags: |
+  type=sha,prefix=sha-,format=short
+  type=raw,value={{branch}}-{{sha}}-{{date 'X'}}
+```
+
+| Tag | Example | Use |
+|---|---|---|
+| `sha-` | `sha-a1b2c3d` | Track exact commit |
+| `branch-sha-ts` | `main-a1b2...-17...` | Full traceability |
+
+---
+
+### Image Tagging — Release
+
+Our `release.yaml` promotes images:
+
+```yaml
+# Pull the SHA-tagged image
+docker pull $IMAGE:sha-a1b2c3d
+
+# Re-tag as a version
+docker tag $IMAGE:sha-a1b2c3d $IMAGE:v1.0.0
+
+# Push the release tag
+docker push $IMAGE:v1.0.0
+```
+
+> ⚠️ Avoid `latest` in production —
+> you can't roll back to "latest"!
+
+---
+
 ### Copy & Push!
 
 ```bash
@@ -1401,16 +1439,11 @@ watch the pipeline run! 🚀
 
 ---
 
-### What is a Container Registry?
-
-**Store and share** Docker images —
-like npm for containers.
+### GitHub Container Registry **ghcr.io**
 
 ```text
 Build image locally → Push to registry → Pull anywhere
 ```
-
-**ghcr.io** = GitHub Container Registry
 - Free for public repos
 - Integrated with GitHub Actions
 - Images live next to your code

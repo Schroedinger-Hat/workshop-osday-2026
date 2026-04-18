@@ -373,6 +373,18 @@ Key concepts:
 - **CI**: every push triggers lint → test → build. If anything fails, you know immediately.
 - **CD**: when code is merged to `main`, the pipeline builds a Docker image and pushes it to the registry.
 
+#### Image Tagging Best Practices
+
+Tag images with **meaningful identifiers** instead of relying on `latest`:
+
+| Strategy | Example | Purpose |
+|---|---|---|
+| SHA prefix | `sha-a1b2c3d` | Track exact commit |
+| Branch-SHA-timestamp | `main-a1b2c3d-1713...` | Full traceability |
+| Semantic version | `v1.0.0` | Release / production |
+
+Our `ci.yaml` uses `docker/metadata-action` to auto-generate SHA and branch tags. The `release.yaml` promotes a SHA-tagged image to a version tag (e.g., `sha-a1b2c3d` → `v1.0.0`).
+
 ---
 
 ### Phase 8 — Docker Compose Deploy

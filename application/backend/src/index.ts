@@ -30,8 +30,11 @@ app.get("/:slug", async (c) => {
 
 const port = Number(process.env.PORT) || 3001;
 
-serve({ fetch: app.fetch, port, hostname: "0.0.0.0" }, () => {
-  console.log(`Backend running on http://localhost:${port}`);
-});
+// Only start the HTTP server when run directly, not when imported by tests
+if (process.argv[1] === new URL(import.meta.url).pathname) {
+  serve({ fetch: app.fetch, port, hostname: "0.0.0.0" }, () => {
+    console.log(`Backend running on http://localhost:${port}`);
+  });
+}
 
 export default app;

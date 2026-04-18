@@ -126,11 +126,12 @@ A URL Shortener with a visit counter. Simple, understandable in 5 seconds, with 
 - **What is CI/CD?** — automate lint → test → build → push
 - **What are GitHub Actions?** — workflows, triggers, jobs, steps
 - Show the pre-made action files in `actions/` directory
+- **Image tagging best practices** — SHA tags, branch-sha-timestamp, release promotion via `release.yaml`; avoid `latest` in production
 - Copy to `.github/workflows/`: `cp -r actions/ .github/workflows/`
 - Git add, commit, push to your fork
 - Watch the pipeline run on GitHub
 
-> Concepts covered: CI/CD, GitHub Actions, automated pipelines
+> Concepts covered: CI/CD, GitHub Actions, automated pipelines, image tagging strategies
 
 ### Phase 8 — Docker Compose Deploy (10 min)
 - **What is a container registry?** — ghcr.io, where CI pushes built images
