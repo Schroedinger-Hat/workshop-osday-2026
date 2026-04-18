@@ -63,7 +63,15 @@ export default function Home() {
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
           {links.map((link) => (
-            <li key={link.id} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ddd", borderRadius: 8 }}>
+            <li
+              key={link.id}
+              style={{
+                marginBottom: "1rem",
+                padding: "1rem",
+                border: "1px solid #ddd",
+                borderRadius: 8,
+              }}
+            >
               <div>
                 <strong>
                   <a href={`${API_URL}/${link.slug}`} target="_blank" rel="noopener noreferrer">

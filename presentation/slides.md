@@ -8,6 +8,10 @@ revealOptions:
   center: true
 ---
 
+<style>
+pre code { font-size: 0.8em !important; line-height: 1.4 !important; }
+</style>
+
 <!-- .slide: data-background="#282a36" -->
 
 # From Git to Deploy
@@ -36,17 +40,16 @@ A **URL Shortener** with a visit counter
 
 | Phase | Topic |
 |---|---|
-| 0 | The Project |
-| 1 | Backend |
-| 2 | Frontend |
-| 3 | Database |
-| 4 | Manual Run |
-| 5 | TDD — Adding a Feature |
-| 6 | Dockerization |
-| 7 | GitHub Actions |
-| 8 | Docker Compose Deploy |
+| 1 | Introduction and local configuration |
+| 2 | TDD — Adding a Feature |
+| 3 | Dockerization |
+| 4 | GitHub Actions |
+| 5 | Docker Compose Deploy |
+| 6 | More features, Q&A |
 
 ---
+
+### Tech Stack
 
 | Component | Technology |
 |---|---|
@@ -54,6 +57,13 @@ A **URL Shortener** with a visit counter
 | Backend | Hono (TypeScript) |
 | Database | PostgreSQL |
 | ORM | **Prisma** |
+
+---
+
+### Tech Stack (cont.)
+
+| Component | Technology |
+|---|---|
 | Toolchain | **Vite+** (dev, test, lint, fmt — one tool) |
 | Containers | Docker + Docker Compose |
 | CI/CD | GitHub Actions |
@@ -63,22 +73,32 @@ A **URL Shortener** with a visit counter
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 0
+
 
 ## The Project
 
 ---
 
+## Project
+
+The project is a URL shortener with
+a backend API, a frontend UI, and a
+PostgreSQL database.
+
+---
+
 ### What is a URL Shortener?
 
-A service that takes a long URL and gives you a short one.
 
 ```text
 Input:  https://very-long-website.com/articles/2026/my-super-long-article
 Output: https://lnk.sh/abc1234
 ```
 
-When someone visits the short URL → they get **redirected** to the original.
+- takes a long URL and gives you a short one.
+- visiting the short URL they get **redirected**
+
+---
 
 Simple concept, real-world engineering:
 - A **backend** to store and resolve links
@@ -87,14 +107,24 @@ Simple concept, real-world engineering:
 
 ---
 
+## Let's begin from the basics!
+
+---
+
+## Version control
+
+---
+
 ### What is Version Control?
 
-A system that **tracks every change** to your code over time.
+**tracks every change** to your code over time.
 
 - Go back to any previous version
 - See who changed what and when
-- Work on the same code with a team without conflicts
-- Every change is a **commit** — a snapshot with a message
+- Work on the same code in a team
+- Every change is a a snapshot with a message
+
+---
 
 Without version control:
 ```text
@@ -107,7 +137,7 @@ project_FINAL_REAL.zip  ← 😩
 
 ### Git — Version Control
 
-**Git** is the most popular version control system.
+**Git** — most popular version control.
 
 ```bash
 git clone <url>      # Download a repo
@@ -116,27 +146,22 @@ git add .            # Stage all changes
 git commit -m "msg"  # Save a snapshot
 git push             # Upload to GitHub
 ```
+---
 
 Key concepts:
 - **Repository** — a project tracked by Git
-- **Commit** — a snapshot of your code at a point in time
+- **Commit** — a snapshot of your code
 - **Branch** — a parallel line of development
 
 ---
 
 ### What is Forking?
 
-A **fork** is your own copy of someone else's repository.
+A **fork** is your own copy of
+someone else's repository.
 
-```text
-Original repo (Schroedinger-Hat/workshop-osday-2026)
-         │
-         ▼  Fork
-Your repo (your-username/workshop-osday-2026)
-```
-
-- You can change anything without affecting the original
-- You can propose changes back via a **Pull Request**
+- Change anything — original is safe
+- Propose changes via **Pull Request**
 
 ---
 
@@ -157,7 +182,8 @@ Now you have the full project on your machine! 🎉
 
 ### What is a Dev Container?
 
-A **pre-configured development environment** that runs inside a Docker container.
+A **pre-configured dev environment**
+running inside a Docker container.
 
 | | Local Install | Dev Container |
 |---|---|---|
@@ -172,10 +198,10 @@ A **pre-configured development environment** that runs inside a Docker container
 
 ### Dev Container vs Local
 
-**Option A — Dev Container (recommended for beginners)**
-- Open the repo in VS Code → "Reopen in Container"
-- Or use **GitHub Codespaces** (cloud, nothing to install)
-- Everything is pre-installed: Node.js, Git, Vite+, PostgreSQL
+**Option A — Dev Container (recommended)**
+- VS Code → "Reopen in Container"
+- Or **GitHub Codespaces** (cloud)
+- Pre-installed: Node, Git, Vite+, PG
 
 **Option B — Local install**
 - Install Git, Node.js, Docker, Vite+ manually
@@ -191,7 +217,7 @@ A **pre-configured development environment** that runs inside a Docker container
 4. Open a terminal — you're ready! ✅
 
 Or via **Codespaces**:
-1. On GitHub → **Code** → **Codespaces** → **Create codespace**
+1. GitHub → **Code** → **Codespaces**
 2. A full VS Code opens in your browser
 
 ---
@@ -225,15 +251,14 @@ Take 2 minutes to explore! 🔍
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 1
-
 ## Backend
 
 ---
 
 ### What is a Web API?
 
-An **API** (Application Programming Interface) lets programs talk to each other over HTTP.
+An **API** lets programs talk to
+each other over HTTP.
 
 ```text
 Frontend (browser)                 Backend (server)
@@ -251,7 +276,8 @@ Frontend (browser)                 Backend (server)
 
 ### What is a Web Framework?
 
-A library that handles **routing, requests, and responses** so you don't have to write everything from scratch.
+Handles **routing, requests, responses**
+so you don't write everything from scratch.
 
 Without a framework:
 ```javascript
@@ -268,7 +294,8 @@ app.post('/api/links', (c) => { /* create link */ });
 
 ### Hono — Our Backend Framework
 
-**Hono** is a lightweight, fast, TypeScript-first web framework.
+**Hono** — lightweight, fast,
+TypeScript-first web framework.
 
 ```typescript
 import { Hono } from 'hono';
@@ -310,7 +337,7 @@ application/backend/
 
 ### What is a Toolchain?
 
-A set of tools that help you **develop, test, lint, and format** your code.
+Tools to **develop, test, lint, format**.
 
 Traditional approach:
 ```bash
@@ -361,7 +388,7 @@ curl http://localhost:3001/
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 2
+
 
 ## Frontend
 
@@ -369,7 +396,8 @@ curl http://localhost:3001/
 
 ### What is Server-Side Rendering?
 
-**SSR** means the server generates HTML before sending it to the browser.
+**SSR** = server generates HTML
+before sending it to the browser.
 
 | | Client-Side (SPA) | Server-Side (SSR) |
 |---|---|---|
@@ -381,7 +409,8 @@ curl http://localhost:3001/
 
 ### What is a Frontend Framework?
 
-A library that helps you build **user interfaces** with reusable components.
+Build **user interfaces** with
+reusable components.
 
 ```jsx
 // A React component
@@ -400,13 +429,14 @@ function LinkCard({ slug, url, visits }) {
 
 ### Next.js — Our Frontend
 
-**Next.js** is a React framework that handles routing, SSR, and optimized builds.
+**Next.js** — React framework for
+routing, SSR, and optimized builds.
 
 Why Next.js?
-- **File-based routing** — `pages/about.tsx` → `/about`
-- **Server-side rendering** — fast first load, great SEO
-- **API routes** — backend endpoints inside the frontend (we use Hono instead)
-- **Optimized builds** — automatic code splitting, image optimization
+- **File-based routing** — easy URLs
+- **SSR** — fast load, great SEO
+- **API routes** — built-in endpoints
+- **Optimized builds** — code splitting
 
 ---
 
@@ -433,15 +463,15 @@ npm ci          # Install dependencies
 npm run dev     # Start dev server on http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser 🌐
+Open http://localhost:3000 🌐
 
-> ⚠️ The frontend needs the backend running to work!
+> ⚠️ Frontend needs the backend running!
 
 ---
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 3
+
 
 ## Database
 
@@ -449,7 +479,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser 🌐
 
 ### What is a Relational Database?
 
-A system that stores data in **tables** with rows and columns, linked by relationships.
+Stores data in **tables** (rows + columns)
+linked by relationships.
 
 ```sql
 Table: links
@@ -461,17 +492,17 @@ Table: links
 └────┴─────────┴──────────────────────┴────────┘
 ```
 
-You query it with **SQL** (Structured Query Language).
+Queried with **SQL**.
 
 ---
 
 ### PostgreSQL
 
-**PostgreSQL** (Postgres) is a powerful, open-source relational database.
+**PostgreSQL** — powerful,
+open-source relational database.
 
-- Battle-tested — used by Instagram, Spotify, Netflix
-- Rich feature set — JSON, full-text search, extensions
-- Free and open-source
+- Used by Instagram, Spotify, Netflix
+- JSON, full-text search, extensions
 
 ```bash
 # Run Postgres with Docker (standalone)
@@ -489,15 +520,27 @@ docker run -d \
 
 ### What is an ORM?
 
-An **ORM** (Object-Relational Mapping) lets you interact with the database using **code objects** instead of raw SQL.
+**ORM** (Object-Relational Mapping) —
+use **code objects** instead of raw SQL.
 
-| | Raw SQL | ORM |
+Benefits: **type safety**, **migrations**
+
+---
+
+### ORM vs Raw SQL — Create & Read
+
+| | Raw SQL | ORM (Prisma) |
 |---|---|---|
-| Create | `INSERT INTO links (slug, url) VALUES ('abc', 'https://...')` | `prisma.link.create({ data: { slug, url } })` |
+| Create | `INSERT INTO links (slug, url) VALUES (...)` | `prisma.link.create({ data: { slug, url } })` |
 | Read | `SELECT * FROM links WHERE slug = 'abc'` | `prisma.link.findUnique({ where: { slug } })` |
-| Update | `UPDATE links SET visits = visits + 1 WHERE slug = 'abc'` | `prisma.link.update({ where: { slug }, data: { visits: { increment: 1 } } })` |
 
-Benefits: **type safety**, **auto-completion**, **migrations**
+---
+
+### ORM vs Raw SQL — Update
+
+| | Raw SQL | ORM (Prisma) |
+|---|---|---|
+| Update | `UPDATE links SET visits = visits + 1 WHERE slug = 'abc'` | `prisma.link.update({ where: { slug }, data: { visits: { increment: 1 } } })` |
 
 ---
 
@@ -543,7 +586,7 @@ model Link {
 
 ---
 
-### Prisma in Action
+### Prisma in Action — Create & Find
 
 ```typescript
 import { PrismaClient } from '@prisma/client';
@@ -558,20 +601,27 @@ const link = await prisma.link.create({
 const found = await prisma.link.findUnique({
   where: { slug: 'abc1234' },
 });
+```
 
+---
+
+### Prisma in Action — List & More
+
+```typescript
 // List all links
 const all = await prisma.link.findMany({
   orderBy: { createdAt: 'desc' },
 });
 ```
 
-> Full type safety — your editor knows every field! ✨
+> Type safety — editor knows fields! ✨
 
 ---
 
 ### Database in the Dev Container
 
-The dev container **already includes PostgreSQL** — no setup needed!
+Dev container **includes PostgreSQL** —
+no setup needed!
 
 ```yaml
 # .devcontainer/docker-compose.yml
@@ -593,7 +643,7 @@ DATABASE_URL=postgresql://postgres:postgres@postgres:5432/linkpulse
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 4
+
 
 ## Manual Run
 
@@ -601,7 +651,7 @@ DATABASE_URL=postgresql://postgres:postgres@postgres:5432/linkpulse
 
 ### What are Environment Variables?
 
-Configuration values that live **outside your code**.
+Config values **outside your code**.
 
 ```text
 Code says:          "connect to the database"
@@ -610,7 +660,7 @@ Env var tells it:   WHERE to connect
 
 Why?
 - **Security** — don't put passwords in code
-- **Flexibility** — different values per environment (dev, staging, production)
+- **Flexibility** — per-environment values
 - **Portability** — same code, different configuration
 
 ---
@@ -629,7 +679,7 @@ Contents of `.env`:
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/linkpulse
 ```
 
-> ⚠️ `.env` files are **never committed** to Git (they're in `.gitignore`)
+> ⚠️ `.env` files are **never committed**
 
 ---
 
@@ -660,7 +710,14 @@ npm run dev
 1. Open [http://localhost:3000](http://localhost:3000)
 2. Create a short URL
 3. Click the short URL → it redirects!
-4. Check the API: `curl http://localhost:3001/api/links`
+
+---
+
+### Verify via API
+
+```bash
+curl http://localhost:3001/api/links
+```
 
 ```json
 [
@@ -674,13 +731,13 @@ npm run dev
 ]
 ```
 
-> Notice: `visits` is always **0** — we haven't built that yet! 🔴
+> `visits` is **0** — not built yet! 🔴
 
 ---
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 5
+
 
 ## Adding a Feature with TDD
 
@@ -688,7 +745,7 @@ npm run dev
 
 ### What is TDD?
 
-**Test-Driven Development** — write tests **before** writing code.
+**TDD** — write tests **before** code.
 
 ```text
 1. 🔴 Red    — Write a failing test
@@ -714,7 +771,8 @@ Repeat for every feature!
 
 ### The Feature: Visit Counter
 
-Every time someone visits a short URL, we **increment a counter**.
+On each visit to a short URL,
+we **increment a counter**.
 
 ```
 GET /abc1234  →  redirect + visits++
@@ -744,7 +802,6 @@ it('should increment visits on redirect', async () => {
   vi.mocked(prisma.link.update).mockResolvedValue({ ...mockLink, visits: 1 });
 
   const res = await app.request('/abc1234');
-
   expect(res.status).toBe(302);
   expect(prisma.link.update).toHaveBeenCalledWith({
     where: { slug: 'abc1234' },
@@ -753,9 +810,22 @@ it('should increment visits on redirect', async () => {
 });
 ```
 
+---
+
+### Run It — It Fails! 🔴
+
 ```bash
-vp test run  # ❌ FAIL — prisma.link.update was never called
+vp test run tests/unit/
 ```
+
+```text
+ ❌ FAIL — prisma.link.update was never called
+
+ Tests:  1 failed | 5 passed | 3 todo
+```
+
+Expects `prisma.link.update` but
+code only has `// TODO`
 
 ---
 
@@ -782,8 +852,18 @@ app.get('/:slug', async (c) => {
 });
 ```
 
+---
+
+### Run Tests Again — Green! 🟢
+
 ```bash
-vp test run  # ✅ PASS!
+vp test run tests/unit/
+```
+
+```text
+ ✅ PASS — all tests pass!
+
+ Tests:  6 passed | 3 todo
 ```
 
 ---
@@ -803,7 +883,8 @@ We need **both**!
 
 ### What is Testcontainers?
 
-A library that spins up **real Docker containers** for your tests.
+Spins up **real Docker containers**
+for your tests.
 
 ```typescript
 import { PostgreSqlContainer } from '@testcontainers/postgresql';
@@ -824,7 +905,6 @@ await container.stop();
 
 ```typescript
 // tests/integration/links.test.ts
-
 it('should create a link and redirect', async () => {
   // Create a link via the API
   const createRes = await app.request('/api/links', {
@@ -832,7 +912,13 @@ it('should create a link and redirect', async () => {
     body: JSON.stringify({ url: 'https://example.com' }),
   });
   const created = await createRes.json();
+```
 
+---
+
+### Integration Test (cont.)
+
+```typescript
   // Redirect via the short URL
   const redirectRes = await app.request(`/${created.slug}`);
   expect(redirectRes.status).toBe(302);
@@ -845,11 +931,13 @@ it('should create a link and redirect', async () => {
 });
 ```
 
+Uses **Testcontainers** — real PG! 🐘
+
 ---
 
 ### Bonus: Try Another Feature! 🚀
 
-There's a placeholder test for a **delete link** feature:
+Placeholder test for **delete link**:
 
 ```typescript
 // tests/unit/links.delete.test.ts
@@ -860,17 +948,20 @@ describe('delete link', () => {
 });
 ```
 
-Your turn:
+---
+
+### Bonus: Your Turn! 🎯
+
 1. Replace `it.todo()` with real tests
 2. Run `vp test run` — they fail (Red 🔴)
-3. Implement `DELETE /api/links/:slug` in `routes/links.ts`
+3. Implement `DELETE /api/links/:slug`
 4. Run `vp test run` — they pass (Green 🟢)
 
 ---
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 6
+
 
 ## Dockerization
 
@@ -878,7 +969,8 @@ Your turn:
 
 ### What is Containerization?
 
-Packaging your application with **everything it needs** into a single, portable unit.
+Package your app with **everything**
+into a single, portable unit.
 
 ```text
 Your App + Node.js + Dependencies + Config
@@ -893,7 +985,8 @@ Your App + Node.js + Dependencies + Config
 
 ### What is Docker?
 
-**Docker** is the most popular tool for building and running containers.
+**Docker** — the most popular tool
+for building and running containers.
 
 ```bash
 docker build -t myapp .       # Build an image from a Dockerfile
@@ -931,15 +1024,15 @@ Remember the dev container from Phase 0?
 └── post-create.sh           # Setup script
 ```
 
-You've been running inside a Docker container this whole time!
+You've been inside Docker this whole time!
 
-The dev container = Docker image + VS Code integration
+Dev container = Docker + VS Code
 
 ---
 
 ### What is a Dockerfile?
 
-A **recipe** that tells Docker how to build an image, step by step.
+A **recipe** to build a Docker image.
 
 ```dockerfile
 FROM node:22-alpine     # Start from a base image
@@ -955,9 +1048,7 @@ Each line = a **layer** (cached for speed)
 
 ---
 
-### Multi-Stage Dockerfile
-
-Use **two stages** to keep the final image small and secure:
+### Multi-Stage Dockerfile — Build Stage
 
 ```dockerfile
 # Stage 1: Build (has dev tools, source code, everything)
@@ -970,7 +1061,13 @@ RUN npx prisma generate
 COPY tsconfig.json ./
 COPY src/ ./src/
 RUN npm run build
+```
 
+---
+
+### Multi-Stage Dockerfile — Runtime Stage
+
+```dockerfile
 # Stage 2: Runtime (only compiled output, no dev deps)
 FROM node:22-alpine
 WORKDIR /app
@@ -995,7 +1092,7 @@ CMD ["node", "dist/index.js"]
 
 ---
 
-### Build & Run Individually
+### Build & Run — Backend
 
 ```bash
 # Build the backend image
@@ -1007,7 +1104,13 @@ docker run -d \
   -p 3001:3001 \
   -e DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:5432/linkpulse \
   linkpulse-be
+```
 
+---
+
+### Build & Run — Frontend
+
+```bash
 # Build the frontend image
 docker build -t linkpulse-fe ./application/frontend
 
@@ -1024,7 +1127,8 @@ That's a lot of commands... 😅
 
 ### What is Orchestration?
 
-Managing **multiple containers** that work together as a system.
+Managing **multiple containers**
+that work together.
 
 ```text
 Frontend ──▶ Backend ──▶ Database
@@ -1040,7 +1144,8 @@ Questions orchestration answers:
 
 ### Docker Compose to the Rescue
 
-**Docker Compose** defines your entire stack in one file:
+**Docker Compose** — entire stack
+in one file:
 
 ```yaml
 # docker-compose.yml
@@ -1054,7 +1159,13 @@ services:
     ports: ["3001:3001"]
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/linkpulse
+```
 
+---
+
+### Docker Compose — Database Service
+
+```yaml
   postgres:
     image: postgres:16-alpine
     environment:
@@ -1062,6 +1173,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 ```
+
+> Services find each other by name
+> (`postgres`, not `localhost`)
 
 ---
 
@@ -1081,13 +1195,13 @@ curl http://localhost:3001/api/links
 docker compose down
 ```
 
-> Containers talk to each other by **service name** (`postgres`, not `localhost`)
+> Use **service names** for networking
 
 ---
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 7
+
 
 ## GitHub Actions
 
@@ -1095,17 +1209,17 @@ docker compose down
 
 ### What is CI/CD?
 
-**Continuous Integration** — every push automatically triggers:
+**CI** — every push triggers:
 ```text
 lint → test → build
 ```
 
-**Continuous Delivery** — on merge to `main`, automatically:
+**CD** — on merge to `main`:
 ```text
-build Docker image → push to registry
+build image → push to registry
 ```
 
-Goal: catch bugs early, ship with confidence, automate everything.
+Catch bugs early, ship confidently.
 
 ---
 
@@ -1122,7 +1236,7 @@ Key concepts:
 - **Trigger** — what starts it (`push`, `pull_request`)
 - **Job** — a set of steps on a virtual machine
 - **Step** — a single command or action
-- **Action** — a reusable unit (e.g., `actions/checkout@v4`)
+- **Action** — reusable unit of code
 
 ---
 
@@ -1138,7 +1252,7 @@ actions/
 
 ---
 
-### CI Workflow — What It Does
+### CI Workflow — Trigger & Matrix
 
 ```yaml
 # actions/ci.yaml
@@ -1146,7 +1260,12 @@ name: CI Docker build and push
 on:
   push:
     branches: [main]
+```
 
+**Matrix strategy** — build BE + FE
+in parallel:
+
+```yaml
 jobs:
   build:
     strategy:
@@ -1156,6 +1275,13 @@ jobs:
             context: application/backend
           - target: fe
             context: application/frontend
+```
+
+---
+
+### CI Workflow — Steps
+
+```yaml
     steps:
       - Checkout code
       - Login to ghcr.io
@@ -1178,7 +1304,8 @@ git commit -m "ci: add GitHub Actions workflows"
 git push origin main
 ```
 
-Now go to your fork on GitHub → **Actions** tab → watch the pipeline run! 🚀
+Go to fork → **Actions** tab →
+watch the pipeline run! 🚀
 
 ---
 
@@ -1202,7 +1329,7 @@ Now go to your fork on GitHub → **Actions** tab → watch the pipeline run! �
 
 <!-- .slide: data-background="#44475a" -->
 
-# Phase 8
+
 
 ## Docker Compose Deploy
 
@@ -1210,7 +1337,8 @@ Now go to your fork on GitHub → **Actions** tab → watch the pipeline run! �
 
 ### What is a Container Registry?
 
-A place to **store and share** Docker images — like npm for containers.
+**Store and share** Docker images —
+like npm for containers.
 
 ```text
 Build image locally → Push to registry → Pull anywhere
@@ -1225,7 +1353,7 @@ Build image locally → Push to registry → Pull anywhere
 
 ### Use Pre-Built Images
 
-Instead of building locally, use the images from GitHub Actions:
+Use images from GitHub Actions:
 
 ```yaml
 # application/deployment/docker-compose.yml
@@ -1238,8 +1366,14 @@ services:
     image: ghcr.io/schroedinger-hat/workshop-osday-2026/be:main
     ports: ["3001:3001"]
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/linkpulse
+      DATABASE_URL: postgresql://...@postgres:5432/linkpulse
+```
 
+---
+
+### Deployment — Database & Run
+
+```yaml
   postgres:
     image: postgres:16-alpine
     environment:
@@ -1248,25 +1382,12 @@ services:
       POSTGRES_PASSWORD: postgres
 ```
 
----
-
-### Deploy! 🚀
-
 ```bash
 cd application/deployment
-
-# Pull and start everything
 docker compose up -d
-
-# Check it's running
-curl http://localhost:3000
-curl http://localhost:3001/api/links
-
-# View logs
-docker compose logs -f
 ```
 
-No source code needed — just the compose file and Docker! 🐳
+No source code needed — just compose! 🐳
 
 ---
 
@@ -1299,13 +1420,17 @@ No source code needed — just the compose file and Docker! 🐳
 
 ✅ **TDD** — write tests first, then implement
 
-✅ **Docker** — containerize with multi-stage builds
+---
 
-✅ **Docker Compose** — orchestrate services
+### What You Learned Today (cont.)
+
+✅ **Docker** — multi-stage builds
+
+✅ **Compose** — orchestrate services
 
 ✅ **GitHub Actions** — automate CI/CD
 
-✅ **ghcr.io** — publish and deploy container images
+✅ **ghcr.io** — publish & deploy images
 
 ---
 
@@ -1313,8 +1438,8 @@ No source code needed — just the compose file and Docker! 🐳
 - [Prisma Docs](https://www.prisma.io/docs)
 - [Hono Docs](https://hono.dev)
 - [Vite+ Docs](https://viteplus.dev)
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-- [Docker Best Practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+- [Actions Docs](https://docs.github.com/en/actions)
+- [Docker Tips](https://docs.docker.com/build/)
 - [Testcontainers](https://testcontainers.com)
 
 ---

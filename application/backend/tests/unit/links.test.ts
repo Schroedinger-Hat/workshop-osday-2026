@@ -26,7 +26,13 @@ describe("visit counter", () => {
 
   it("should increment visits on redirect", async () => {
     // Arrange: mock a link in the database
-    const mockLink = { id: 1, slug: "abc1234", url: "https://example.com", visits: 0, createdAt: new Date() };
+    const mockLink = {
+      id: 1,
+      slug: "abc1234",
+      url: "https://example.com",
+      visits: 0,
+      createdAt: new Date(),
+    };
     vi.mocked(prisma.link.findUnique).mockResolvedValue(mockLink);
     vi.mocked(prisma.link.update).mockResolvedValue({ ...mockLink, visits: 1 });
 
