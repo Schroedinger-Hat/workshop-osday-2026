@@ -70,6 +70,19 @@ A **URL Shortener** with a visit counter
 
 ---
 
+### License
+
+All workshop material is **open source**
+under the **MIT License**:
+
+- ✅ Use, modify, share freely
+- ✅ Attribution required
+- ✅ Commercial use allowed
+
+> Check the `LICENSE` file in the repo.
+
+---
+
 <!-- .slide: data-background="#44475a" -->
 
 

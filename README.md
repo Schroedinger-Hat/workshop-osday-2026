@@ -420,3 +420,9 @@ docker compose up -d   # Deploy from pre-built images
 | Stop all services | `docker compose down` |
 | View service logs | `docker compose logs -f` |
 | Pull latest images | `docker compose pull` |
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
