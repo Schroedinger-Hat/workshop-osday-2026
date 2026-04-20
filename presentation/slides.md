@@ -1494,6 +1494,10 @@ Frontend ──▶ Backend ──▶ Database
  (port 3000)  (port 3001)  (port 5432)
 ```
 
+---
+
+### Docker compose
+
 Questions orchestration answers:
 - What order to start them?
 - How do they find each other?
@@ -1565,12 +1569,10 @@ docker compose down
 Deploy the app with Docker Compose!
 
 1. Make sure Docker is running
-2. `docker build -t linkpulse-be ./application/backend` — build the backend image
-3. `docker build -t linkpulse-fe ./application/frontend` — build the frontend image
-4. `cd application && docker compose up` — start the full stack
-5. `curl http://localhost:3001/api/links` → backend is alive ✅
-6. Open [http://localhost:3000](http://localhost:3000) → frontend is alive ✅
-7. `docker compose down` when done
+2. `docker compose up --build`
+4. `cd application && docker compose up`
+6. Open [http://localhost:3000](http://localhost:3000) 
+7. `docker compose down`
 
 ---
 
@@ -1665,6 +1667,10 @@ tags: |
   type=raw,value={{branch}}-{{sha}}-{{date 'X'}}
 ```
 
+---
+
+### Image Tagging — Best Practices
+
 | Tag | Example | Use |
 |---|---|---|
 | `sha-` | `sha-a1b2c3d` | Track exact commit |
@@ -1730,17 +1736,13 @@ watch the pipeline run! 🚀
 
 <!-- .slide: data-background="#44475a" -->
 
-## ⏱️ TIMER 10min
+## ⏱️ TIMER 5min
 
 Create and push the GitHub Actions workflows!
 
-1. `mkdir -p .github/workflows` — create the workflows directory
-2. `cp actions/* .github/workflows/` — copy the pre-made workflows
-3. `git add .github/workflows/` — stage the new files
-4. `git commit -m "ci: add GitHub Actions workflows"`
-5. `git push origin main` — push to your fork
-6. Go to your fork on GitHub → click the **Actions** tab
-7. Watch the pipeline build and push both images to ghcr.io 🚀
+- `cp actions/* .github/workflows/`
+- Commit and push edits
+- Go to your fork on GitHub, **Actions** tab to see it run!
 
 ---
 
@@ -1820,6 +1822,147 @@ No source code needed — just compose! 🐳
        ▼
   docker compose up  → 🚀 Running!
 ```
+
+---
+
+## What's Next?
+### Beyond Docker Compose
+
+---
+
+### The Evolution of Deployment
+
+| Stage | Tool | When |
+|---|---|---|
+| Local dev | Docker Compose | 1 machine, 1 developer |
+| Single server | Docker Compose | Small traffic, simple ops |
+| Multiple servers | **Kubernetes** | Scale, resilience, teams |
+
+---
+
+### What is Kubernetes?
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" height="120" alt="Kubernetes logo" />
+
+---
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" height="120" alt="Kubernetes logo" />
+
+orchestrates containers **across a cluster of machines**.
+
+- Automatically restarts crashed containers
+- Scales up/down based on traffic
+- Distributes load across nodes
+- Manages secrets, config, storage
+
+---
+
+### 🖥️ Runs On
+
+| Docker Compose | 1 machine |
+|---|---|
+| Kubernetes | Many machines |
+
+<br>
+
+- Compose is a single host. 
+- K8s spans a whole cluster of nodes.
+
+---
+
+### 📈 Scaling
+
+| Docker Compose | Manual (`--scale`) |
+|---|---|
+| Kubernetes | Automatic (HPA) |
+
+K8s watches CPU/memory and adds or removes pods automatically.
+
+---
+
+### 🔄 Self-Healing
+
+| Docker Compose | ❌ |
+|---|---|
+| Kubernetes | ✅ |
+
+Crashed container? K8s restarts it. On a failed node? Reschedules elsewhere.
+
+---
+
+### 🚀 Rolling Deploys
+
+| Docker Compose | ❌ |
+|---|---|
+| Kubernetes | ✅ |
+
+K8s replaces pods one by one — zero downtime, automatic rollback on failure.
+
+---
+
+### 🧩 Complexity
+
+| Docker Compose | Low |
+|---|---|
+| Kubernetes | High |
+
+Compose is a single YAML file. K8s is a full platform — more power, more to learn.
+
+---
+
+### 🎯 Best For
+
+| Docker Compose | Dev / small prod |
+|---|---|
+| Kubernetes | Production at scale |
+
+Start with Compose. Graduate to K8s when you need resilience across machines.
+
+---
+
+### link-pulse on Kubernetes
+
+```yaml
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkpulse-backend
+spec:
+  replicas: 3          # 3 instances, auto load-balanced
+  template:
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/schroedinger-hat/workshop-osday-2026/be:main
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:     # secret, not plain text
+                  name: db-secret
+                  key: url
+```
+
+---
+
+### The Full Production Journey
+
+```text
+  git push
+     │
+     ▼
+  GitHub Actions → ghcr.io
+     │
+     ▼
+  kubectl apply  (or ArgoCD / Flux)
+     │
+     ▼
+  Kubernetes rolling update
+  (zero downtime, automatic rollback on failure)
+```
+
+> Same image, same registry —
+> only the **orchestrator** changes.
 
 ---
 
