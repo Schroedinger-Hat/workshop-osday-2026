@@ -1011,6 +1011,69 @@ app.get('/:slug', async (c) => {
 
 ---
 
+### 📝 What We'll Test: Visit Counter
+
+- **Redirect works** 
+- **Visit counter increments**
+
+
+---
+
+### Our Test Strategy: Mocked Unit Tests
+
+For the visit counter, we'll use **unit tests with mocks**:
+
+```
+┌─ Test ─────────────┐
+│  redirect route    │
+│       ↓            │
+│  [Mocked Prisma]   │  ← No real database!
+│  ├ findUnique()    │    Instant, controlled
+│  └ update()        │
+└────────────────────┘
+```
+---
+
+### 🎭 What is a Mock?
+
+A **fake version** of a dependency (database, API, file system)
+that replaces the real one during testing.
+
+---
+
+| Real World | | Test World |
+|---|---|---|
+| Database | → | Mock |
+| API Call | → | Fake Response |
+| File I/O | → | In-Memory |
+
+---
+
+### Mock Advanced: Track Function Calls
+
+```typescript
+// Setup: mock the update function
+vi.mocked(prisma.link.update).mockResolvedValue({ ...link, visits: 1 });
+
+// Test code calls it
+await myFunction();
+
+// Assert: verify it was called correctly
+expect(prisma.link.update).toHaveBeenCalledWith({
+  where: { slug: 'abc1234' },
+  data: { visits: { increment: 1 } }
+});
+```
+---
+
+
+**This is the power of mocks:**
+- Control *what* it returns
+- Verify *how* it was called
+- Ensure your code uses dependencies correctly
+
+---
+
 ### Write the Failing Test 🔴
 
 ```typescript
@@ -1028,6 +1091,13 @@ it('should increment visits on redirect', async () => {
   });
 });
 ```
+---
+
+- No database setup needed
+- Tests run in milliseconds
+- Can verify each call independently
+
+---
 
 ---
 
@@ -1087,6 +1157,12 @@ vp test run tests/unit/
 
 ---
 
+## ⏱️ TIMER 5min
+
+- `vp test run tests/unit/` 🔴
+- Add the increment code to `src/index.ts`
+- `vp test run tests/unit/` 🟢
+
 Rember to commit and push your changes!
 
 ---
@@ -1144,6 +1220,10 @@ We need **all of them** — at the right level.
 
 ---
 
+## Integration Tests with Testcontainers
+
+--- 
+
 ### What is Testcontainers?
 
 Spins up **real Docker containers**
@@ -1158,7 +1238,11 @@ const url = container.getConnectionUri();
 await container.stop();
 ```
 
-- No mocks — real database
+---
+
+### What is Testcontainers?
+
+- No mocks — "real" database
 - Isolated — fresh container per test
 - Portable — works locally and in CI
 
@@ -1227,6 +1311,8 @@ describe('delete link', () => {
 ## ⏱️ TIMER 15min
 
 Run the TDD cycle for the visit counter feature!
+
+- `vp test run tests/integration/` 🔴
 
 1. Open `tests/unit/links.test.ts` and add the failing test for visit counter increment
 2. Run `vp test run tests/unit/` → it should **fail** 🔴

@@ -292,6 +292,27 @@ TDD is a development methodology where you **write tests before writing code**:
 
 The workshop includes a **bonus TDD exercise**: implement `DELETE /api/links/:slug`. The file `tests/unit/links.delete.test.ts` contains a complete green example showing all three tests passing — use it as a reference for the red→green→refactor cycle.
 
+#### Mocks, Stubs & Spies
+
+**Unit tests use mocks** to test code in isolation:
+
+- **Mock:** A fake version of a dependency (database, API) that you control and can verify
+- **Stub:** A simple fake that returns a fixed value (no verification)
+- **Spy:** Wraps a real function to track calls while preserving original behavior
+
+```typescript
+// Mock: Control what the database returns AND verify it was called correctly
+vi.mocked(prisma.link.update).mockResolvedValue({ visits: 1 });
+// ... test code ...
+expect(prisma.link.update).toHaveBeenCalledWith({ ... });
+```
+
+Benefits:
+- ⚡ Tests run in milliseconds (no real DB)
+- 🎯 Test logic in isolation
+- 🔒 Control inputs/outputs precisely
+- ✅ Verify your code calls dependencies correctly
+
 #### Vitest (via Vite+)
 
 Vitest is a **blazing-fast test runner** built on top of Vite. Vite+ wraps Vitest — you run tests with `vp test`.

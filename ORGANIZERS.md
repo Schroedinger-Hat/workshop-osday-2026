@@ -93,16 +93,18 @@ A URL Shortener with a visit counter. Simple, understandable in 5 seconds, with 
 1. **What is TDD?** — Red / Green / Refactor cycle
 2. **Why test first > test later?** — design pressure, confidence, prevents "I'll write tests later"
 3. The feature: visit counter (explain what it does)
-4. Show the **failing test** already in the repo (`tests/unit/links.test.ts`): `vp test run tests/unit/`
-5. Run it — see the red 🔴 (1 failed, 5 passed, 3 todo)
-6. Implement the visit counter in `src/index.ts` (add `prisma.link.update({ data: { visits: { increment: 1 } } })`)
-7. Run tests again — green 🟢
-8. Refactor if needed 🔵
-9. **Unit tests vs integration tests** — brief theory
-10. Show integration test with Testcontainers (`tests/integration/links.test.ts`)
-11. Bonus: show placeholder test for delete feature (`tests/unit/links.delete.test.ts`)
+4. **Mocking theory** — What are mocks, stubs, spies? Why mock? Mock vs stub vs spy table + examples
+5. **Our test strategy** — We'll use unit tests with mocked dependencies (no real DB)
+6. Show the **failing test** already in the repo (`tests/unit/links.test.ts`): `vp test run tests/unit/`
+7. Run it — see the red 🔴 (1 failed, 5 passed, 3 todo)
+8. Implement the visit counter in `src/index.ts` (add `prisma.link.update({ data: { visits: { increment: 1 } } })`)
+9. Run tests again — green 🟢
+10. Refactor if needed 🔵
+11. **Unit tests vs integration tests** — brief theory
+12. Show integration test with Testcontainers (`tests/integration/links.test.ts`)
+13. Bonus: show placeholder test for delete feature (`tests/unit/links.delete.test.ts`)
 
-> Concepts covered: TDD, unit vs integration testing, mocking, Testcontainers
+> Concepts covered: TDD, mocking (mock/stub/spy), unit vs integration testing, Testcontainers
 
 ### Phase 6 — Dockerization (10 min)
 - **What is containerization?** — the "works on my machine" problem

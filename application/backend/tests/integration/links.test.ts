@@ -69,4 +69,25 @@ describe("links integration", () => {
     const res = await app.request("/nonexistent");
     expect(res.status).toBe(404);
   });
+
+  it("should accumulate visit counter across multiple redirects", async () => {
+    const { default: app } = await import("../../src/index.js");
+
+    // Create a fresh link
+    const createRes = await app.request("/api/links", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: "https://example.com" }),
+    });
+    const { slug } = await createRes.json();
+
+    // Hit the redirect 3 times sequentially
+    await app.request(`/${slug}`);
+    await app.request(`/${slug}`);
+    await app.request(`/${slug}`);
+
+    // Visit counter must be exactly 3, not 1 (catches naive non-atomic increments)
+    const link = await prisma.link.findUnique({ where: { slug } });
+    expect(link?.visits).toBe(3);
+  });
 });
