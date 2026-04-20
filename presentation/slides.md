@@ -250,9 +250,9 @@ simulate a full machine
 
 ### ⏱️ Setup Time
 
-| Local Install | 30+ min |
+| Manual Install | 30+ min |
 |---|---|
-| Dev Container | ~2 min |
+| Automated Install | ~5-10 min |
 
 No manual installs, no config problems, no headaches.
 
@@ -260,21 +260,21 @@ No manual installs, no config problems, no headaches.
 
 ### 🤷 "Works on My Machine"
 
-| Local Install | 🤷 |
+| Manual Install | 🤷 |
 |---|---|
-| Dev Container | ✅ |
+| Automated Install | ✅ |
 
-Local = your OS, your versions, your quirks.
+Manual = your OS, your versions, your quirks.
 
-Dev Container = **same environment for everyone**.
+Automated = **same environment for everyone**.
 
 ---
 
 ### 🔁 Consistent Environment
 
-| Local Install | No |
+| Manual Install | No |
 |---|---|
-| Dev Container | Yes |
+| Automated Install | Yes |
 
 New team member? Senior dev? CI runner?
 
@@ -284,9 +284,9 @@ All use the **exact same environment**.
 
 ### 🐳 Requires Docker
 
-| Local Install | No |
+| Manual Install | No |
 |---|---|
-| Dev Container | Yes |
+| Automated Install | Yes |
 
 The trade-off: Docker must be installed.
 
