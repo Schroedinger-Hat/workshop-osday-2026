@@ -28,4 +28,17 @@ links.get("/", async (c) => {
   return c.json(allLinks);
 });
 
+// Delete a link
+links.delete("/:slug", async (c) => {
+  const slug = c.req.param("slug");
+
+  const existing = await prisma.link.findUnique({ where: { slug } });
+  if (!existing) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  await prisma.link.delete({ where: { slug } });
+  return new Response(null, { status: 204 });
+});
+
 export default links;

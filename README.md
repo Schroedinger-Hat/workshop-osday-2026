@@ -89,6 +89,7 @@ workshop-osday-2026/
 │   ├── backend/                # Hono API (TypeScript)
 │   │   ├── src/
 │   │   │   ├── routes/
+│   │   │   │   └── links.ts      # POST, GET, DELETE /api/links
 │   │   │   ├── db/
 │   │   │   └── index.ts
 │   │   ├── prisma/
@@ -130,13 +131,13 @@ Explore the Hono API, understand routes and the Vite+ toolchain, run the backend
 Explore the Next.js frontend, understand why SSR matters, run the frontend without Docker.
 
 ### Phase 3 — Database
-PostgreSQL basics, run Postgres standalone with `docker run`, introduction to Prisma ORM (schema, generate, db push), database in the dev container.
+PostgreSQL basics, run Postgres standalone with `docker run`, introduction to Prisma ORM (schema, migrations, generate), database in the dev container. Covers `db push` vs `migrate dev` — when to use each.
 
 ### Phase 4 — Manual Run
-Set up `.env` files, push the Prisma schema, run backend and frontend manually, verify the application works.
+Set up `.env` files, run Prisma migrations (`npx prisma migrate dev --name first_migration`), run backend and frontend manually, verify the application works.
 
 ### Phase 5 — Adding a Feature with TDD (25 min)
-Implement a visit counter using TDD: write a failing unit test (red), make it pass (green), refactor. Add an integration test with Testcontainers. Try a bonus feature.
+Implement a visit counter using TDD: write a failing unit test (red), make it pass (green), refactor. Add an integration test with Testcontainers. Bonus: the `DELETE /api/links/:slug` endpoint is already implemented with full green tests in `tests/unit/links.delete.test.ts` as a worked example.
 
 ### Phase 6 — Dockerization
 What is Docker, why containers, multi-stage Dockerfiles, build and run individually, Docker Compose for local orchestration.
@@ -265,8 +266,8 @@ docker run -d --name postgres \
 Prisma is a **modern TypeScript ORM** (Object-Relational Mapping) for Node.js. Instead of writing raw SQL, you define your schema in `prisma/schema.prisma` and interact with the database using type-safe code.
 
 ```bash
-npx prisma generate   # Generate the type-safe client from schema
-npx prisma db push    # Sync schema to the database
+npx prisma migrate dev   # Create & apply migration + generate client
+npx prisma generate      # Regenerate client only (no DB changes)
 ```
 
 ```typescript
@@ -274,6 +275,7 @@ npx prisma db push    # Sync schema to the database
 const link = await prisma.link.create({ data: { slug, url } });
 const found = await prisma.link.findUnique({ where: { slug } });
 const all = await prisma.link.findMany({ orderBy: { createdAt: 'desc' } });
+await prisma.link.delete({ where: { slug } });
 ```
 
 ---
@@ -287,6 +289,8 @@ TDD is a development methodology where you **write tests before writing code**:
 1. 🔴 **Red** — write a test that fails (the feature doesn't exist yet)
 2. 🟢 **Green** — write the minimum code to make the test pass
 3. 🔵 **Refactor** — clean up the code while keeping tests green
+
+The workshop includes a **bonus TDD exercise**: implement `DELETE /api/links/:slug`. The file `tests/unit/links.delete.test.ts` contains a complete green example showing all three tests passing — use it as a reference for the red→green→refactor cycle.
 
 #### Vitest (via Vite+)
 
@@ -414,7 +418,7 @@ docker compose up -d   # Deploy from pre-built images
 | Format + lint + type-check | `vp check` |
 | Fix lint & format issues | `vp check --fix` |
 | Generate Prisma client | `npx prisma generate` |
-| Push schema to database | `npx prisma db push` |
+| Run migration (dev) | `npx prisma migrate dev` |
 | Build for production | `npm run build` |
 | Start all services | `docker compose up` |
 | Stop all services | `docker compose down` |

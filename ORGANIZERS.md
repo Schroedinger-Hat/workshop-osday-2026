@@ -73,16 +73,16 @@ A URL Shortener with a visit counter. Simple, understandable in 5 seconds, with 
 - **What is a relational database?** — tables, rows, SQL
 - **PostgreSQL** — our database, included in devcontainer config
 - **What is an ORM?** — maps DB tables to code objects, type safety, migrations
-- **Prisma** — our ORM: `prisma/schema.prisma`, `prisma generate`, `prisma db push`
+- **Prisma** — our ORM: `prisma/schema.prisma`, `prisma migrate dev`, `prisma generate`
 - Show how Prisma replaces raw SQL: `prisma.link.create()` vs `pool.query("INSERT...")`
 - Running Postgres standalone with `docker run` (first taste of Docker)
 
-> Concepts covered: relational databases, ORMs, Prisma schema, database connectivity
+> Concepts covered: relational databases, ORMs, Prisma schema, migrations, database connectivity
 
 ### Phase 4 — Manual Run (10 min)
 - **What are environment variables?** — `.env` files, why they matter
 - Copy `.env.example` to `.env`, explain `DATABASE_URL`
-- `npx prisma db push` — sync schema to database
+- `npx prisma migrate dev --name first_migration` — create and apply migration to database
 - Run the backend: `vp dev`
 - Run the frontend: `npm run dev`
 - Check the application: open browser, create a link, test redirect
@@ -222,7 +222,7 @@ The presentation follows a **theory-before-tool** pattern: each technology gets 
 | Phase 1 — Backend | 5 min | REST APIs, Hono, TypeScript, Vite+ toolchain |
 | Phase 2 — Frontend | 5 min | SSR, Next.js, running the frontend |
 | Phase 3 — Database | 5 min | Relational DBs, PostgreSQL, ORMs, Prisma schema |
-| Phase 4 — Manual Run | 10 min | Env variables, .env setup, Prisma db push, running services |
+| Phase 4 — Manual Run | 10 min | Env variables, .env setup, Prisma migrate dev, running services |
 | Phase 5 — TDD | 25 min | TDD cycle, failing test, implement feature, integration tests |
 | Phase 6 — Dockerization | 10 min | Containers, Dockerfiles, multi-stage builds, Docker Compose |
 | Phase 7 — GitHub Actions | 10 min | CI/CD, workflows, copy actions, push to fork |

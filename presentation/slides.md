@@ -531,12 +531,12 @@ Atomic increments with no raw arithmetic in strings.
 ### Prisma
 
 1. Define your schema in `prisma/schema.prisma`
-2. Generate a type-safe client
-3. Use it in your code
+2. Run a migration to apply changes to DB
+3. Use the generated type-safe client in your code
 
 ```bash
-npx prisma generate   # Generate the client from schema
-npx prisma db push    # Sync schema to database
+npx prisma migrate dev   # Create & apply migration + generate client
+npx prisma generate      # Regenerate client only (no DB changes)
 ```
 
 ---
@@ -555,6 +555,111 @@ model Link {
   @@map("links")
 }
 ```
+
+---
+
+### What is `prisma migrate dev`?
+
+A **development migration** command that:
+
+1. Compares your `schema.prisma` to the current DB
+2. Generates a **SQL migration file** in `prisma/migrations/`
+3. Applies the migration to your database
+4. Regenerates the Prisma client
+
+---
+
+### Running a Migration
+
+```bash
+cd application/backend
+
+# First time — creates the initial migration
+npx prisma migrate dev --name first_migration
+```
+
+```text
+prisma/migrations/
+└── 20260420131503_first_migration/
+    └── migration.sql    ← Generated SQL
+```
+
+> Migrations are **committed to Git** — everyone gets the same DB state.
+
+---
+
+### Managing Models with Prisma
+
+To **add or change a model**, edit `schema.prisma` and run:
+
+```bash
+npx prisma migrate dev --name describe_your_change
+```
+
+Prisma detects the diff and generates the right SQL.
+
+---
+
+### Migration Example
+
+Add an `expiresAt` field to `Link`:
+
+```prisma
+model Link {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique
+  url       String
+  visits    Int       @default(0)
+  createdAt DateTime  @default(now()) @map("created_at")
+  expiresAt DateTime? @map("expires_at")  // ← new field
+
+  @@map("links")
+}
+```
+
+Then: `npx prisma migrate dev --name add_expires_at`
+
+---
+
+Alternative to `migrate dev` is `db push`
+- **pushes the schema** to database
+- Avoid migration file creation
+- Good for quick prototyping
+- Not recommended for real development or teams
+
+---
+
+### 📄 Migration Files
+
+| `db push` | No migration files created |
+|---|---|
+| `migrate dev` | ✅ Generates SQL migration files |
+
+---
+
+### 🕓 History Tracking
+
+| `db push` | No history |
+|---|---|
+| `migrate dev` | ✅ Tracks every change |
+
+---
+
+### 👥 Team-Friendly
+
+| `db push` | ❌ Changes not shared with team |
+|---|---|
+| `migrate dev` | ✅ Committed to Git — everyone stays in sync |
+
+---
+
+### 🎯 When to Use
+
+| `db push` | Quick prototyping |
+|---|---|
+| `migrate dev` | Real development |
+
+> Use `migrate dev` for anything you want to **keep and share**.
 
 ---
 
@@ -639,13 +744,13 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/linkpulse
 
 ---
 
-### Push the Schema & Run
+### Run the Migration & Start
 
 ```bash
 cd application/backend
 
-# Sync Prisma schema to database
-npx prisma db push
+# Create and apply migration to database
+npx prisma migrate dev --name first_migration
 
 # Start the backend
 vp run dev
@@ -713,11 +818,9 @@ curl http://localhost:3001/api/links
 
 ### What is TDD?
 
-```text
 1. 🔴 Red    — Write a failing test
 2. 🟢 Green  — Write minimum code to pass
 3. 🔵 Refactor — Clean up, keep tests green
-```
 
 ---
 
