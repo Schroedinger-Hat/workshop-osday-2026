@@ -282,18 +282,6 @@ All use the **exact same environment**.
 
 ---
 
-### 🐳 Requires Docker
-
-| Manual Install | No |
-|---|---|
-| Automated Install | Yes |
-
-The trade-off: Docker must be installed.
-
-But Docker is already a workshop prerequisite — and you get **everything else for free**.
-
----
-
 ### Setup Dev Container
 
 - VS Code → "Reopen in Container" command
@@ -314,8 +302,11 @@ But Docker is already a workshop prerequisite — and you get **everything else 
 
 ## ⏱️ TIMER 5min
 
-- Fork the repo on GitHub
-- Clone your fork locally
+1. Go to the repo on GitHub and click **Fork**
+2. Wait for your fork to be created under your username
+3. Click **Code → Copy** the clone URL
+4. In your terminal: `git clone https://github.com/<your-username>/workshop-osday-2026`
+5. Look at the code!
 
 ---
 
@@ -423,7 +414,13 @@ curl http://localhost:3001/
 
 ## ⏱️ TIMER 5min
 
-Run the backend and test it
+Run the backend and test it!
+
+1. `cd application/backend`
+2. `npm ci` — install dependencies
+3. `vp dev` — start the backend on port 3001
+4. In another terminal: `curl http://localhost:3001/` → should return `{ "status": "Hello world" }`
+5. `curl http://localhost:3001/api/links` → should return an empty array `[]`
 
 ---
 
@@ -515,7 +512,14 @@ Open http://localhost:3000 🌐
 
 ## ⏱️ TIMER 5min
 
-Run the frontend and open the app
+Run the frontend and check it!
+
+1. Make sure the backend is still running on port 3001
+2. Open a new terminal: `cd application/frontend`
+3. `npm ci` — install dependencies
+4. `vp dev` — start the frontend on port 3000
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. You should see the link-pulse UI ✅
 
 ---
 
@@ -843,7 +847,14 @@ vp run dev
 
 ## ⏱️ TIMER 5min
 
-Run the command
+Run migration from prisma and start the app!
+
+1. `cd application/backend`
+2. `cp .env.example .env` — copy the env file
+3. `npx prisma migrate dev --name first_migration` — create the database schema
+4. `vp dev` — start the backend
+5. In another terminal: `cd application/frontend && vp dev` — start the frontend
+6. Open [http://localhost:3000](http://localhost:3000), create a short URL and click it → it should redirect! 🎉
 
 
 ---
@@ -1178,7 +1189,13 @@ describe('delete link', () => {
 
 ## ⏱️ TIMER 15min
 
-Implement the visit counter with TDD
+Run the TDD cycle for the visit counter feature!
+
+1. Open `tests/unit/links.test.ts` and add the failing test for visit counter increment
+2. Run `vp test run tests/unit/` → it should **fail** 🔴
+3. Open `src/index.ts` and add `prisma.link.update(...)` in the redirect route
+4. Run `vp test run tests/unit/` → all tests should **pass** 🟢
+5. **Bonus:** open `tests/unit/links.delete.test.ts`, replace `it.todo()` with real tests, implement `DELETE /api/links/:slug`, and make them green too 🚀
 
 ---
 
@@ -1447,7 +1464,15 @@ docker compose down
 
 ## ⏱️ TIMER 10min
 
-Build and run the Docker images
+Deploy the app with Docker Compose!
+
+1. Make sure Docker is running
+2. `docker build -t linkpulse-be ./application/backend` — build the backend image
+3. `docker build -t linkpulse-fe ./application/frontend` — build the frontend image
+4. `cd application && docker compose up` — start the full stack
+5. `curl http://localhost:3001/api/links` → backend is alive ✅
+6. Open [http://localhost:3000](http://localhost:3000) → frontend is alive ✅
+7. `docker compose down` when done
 
 ---
 
@@ -1609,8 +1634,15 @@ watch the pipeline run! 🚀
 
 ## ⏱️ TIMER 10min
 
-- Copy the workflows and push to GitHub
-- Watch the pipeline run in the Actions tab
+Create and push the GitHub Actions workflows!
+
+1. `mkdir -p .github/workflows` — create the workflows directory
+2. `cp actions/* .github/workflows/` — copy the pre-made workflows
+3. `git add .github/workflows/` — stage the new files
+4. `git commit -m "ci: add GitHub Actions workflows"`
+5. `git push origin main` — push to your fork
+6. Go to your fork on GitHub → click the **Actions** tab
+7. Watch the pipeline build and push both images to ghcr.io 🚀
 
 ---
 
