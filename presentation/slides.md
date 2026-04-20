@@ -1222,7 +1222,7 @@ We need **all of them** — at the right level.
 
 ## Integration Tests with Testcontainers
 
---- 
+---
 
 ### What is Testcontainers?
 
@@ -1282,43 +1282,18 @@ Uses **Testcontainers** — real PG! 🐘
 
 ---
 
-### Bonus: Try Another Feature! 🚀
 
-Placeholder test for **delete link**:
-
-```typescript
-// tests/unit/links.delete.test.ts
-describe('delete link', () => {
-  it.todo('should delete an existing link and return 204');
-  it.todo('should return 404 when deleting a non-existent slug');
-  it.todo('should not list the deleted link anymore');
-});
-```
-
----
-
-### Bonus: Your Turn! 🎯
-
-1. Replace `it.todo()` with real tests
-2. Run `vp test run` — they fail (Red 🔴)
-3. Implement `DELETE /api/links/:slug`
-4. Run `vp test run` — they pass (Green 🟢)
-
----
 
 <!-- .slide: data-background="#44475a" -->
 
-## ⏱️ TIMER 15min
+## ⏱️ TIMER 5min
 
-Run the TDD cycle for the visit counter feature!
+Run the TDD cycle for the delete feature!
 
 - `vp test run tests/integration/` 🔴
-
-1. Open `tests/unit/links.test.ts` and add the failing test for visit counter increment
-2. Run `vp test run tests/unit/` → it should **fail** 🔴
-3. Open `src/index.ts` and add `prisma.link.update(...)` in the redirect route
-4. Run `vp test run tests/unit/` → all tests should **pass** 🟢
-5. **Bonus:** open `tests/unit/links.delete.test.ts`, replace `it.todo()` with real tests, implement `DELETE /api/links/:slug`, and make them green too 🚀
+- update `src/index.ts` to implement the delete route
+  - add `prisma.link.delete(...)` 
+- `vp test run tests/integration/` 🟢
 
 ---
 

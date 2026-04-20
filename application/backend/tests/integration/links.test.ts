@@ -90,4 +90,36 @@ describe("links integration", () => {
     const link = await prisma.link.findUnique({ where: { slug } });
     expect(link?.visits).toBe(3);
   });
+
+  // TDD Exercise — implement DELETE /api/links/:slug
+  it("should delete a link and return 204", async () => {
+    const { default: app } = await import("../../src/index.js");
+
+    // Create a link to delete
+    const createRes = await app.request("/api/links", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: "https://example.com/to-delete" }),
+    });
+    const { slug } = await createRes.json();
+
+    // Delete it
+    const deleteRes = await app.request(`/api/links/${slug}`, {
+      method: "DELETE",
+    });
+    expect(deleteRes.status).toBe(204);
+
+    // Confirm it no longer exists in the real DB
+    const gone = await prisma.link.findUnique({ where: { slug } });
+    expect(gone).toBeNull();
+  });
+
+  it("should return 404 when deleting a non-existent slug", async () => {
+    const { default: app } = await import("../../src/index.js");
+
+    const res = await app.request("/api/links/does-not-exist", {
+      method: "DELETE",
+    });
+    expect(res.status).toBe(404);
+  });
 });

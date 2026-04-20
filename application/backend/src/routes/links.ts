@@ -30,15 +30,10 @@ links.get("/", async (c) => {
 
 // Delete a link
 links.delete("/:slug", async (c) => {
-  const slug = c.req.param("slug");
-
-  const existing = await prisma.link.findUnique({ where: { slug } });
-  if (!existing) {
-    return c.json({ error: "Not found" }, 404);
-  }
-
-  await prisma.link.delete({ where: { slug } });
-  return new Response(null, { status: 204 });
+  // TODO: delete the link!
+  // const slug = c.req.param("slug");
+  // await prisma.link.delete({ where: { slug } });
+  // return new Response(null, { status: 204 });
 });
 
 export default links;
