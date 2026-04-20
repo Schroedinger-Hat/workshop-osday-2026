@@ -176,10 +176,75 @@ Now you have the full project on your machine! 🎉
 
 ---
 
-### What is a Dev Container?
+### 🌍 The Environment Problem
 
-A **pre-configured dev environment**
-running inside a Docker container.
+Every developer has a **different machine**:
+different OS, different versions, different configs.
+
+> "It works on my machine" is the #1 onboarding killer.
+
+---
+
+### 🌍 The Environment Problem
+
+A **reproducible dev environment** means:
+- ⚡ Faster onboarding
+- 🐛 Fewer "ghost bugs"
+- 🤝 Easier collaboration
+
+---
+
+### 🛠️ Tools for Reproducible Environments
+
+---
+
+### asdf
+
+**Version manager** via plugins
+
+- Runtimes & CLIs only
+- One `.tool-versions` file per project
+- Plugin per tool (Node, Python, Ruby…)
+
+---
+
+<img src="https://mise.jdx.dev/logo-full-dark.svg" alt="mise logo" height="160" />
+
+**Modern asdf alternative** (written in Rust, faster)
+
+- Runtimes, env vars, and tasks
+- Drop-in `.tool-versions` compatible
+- Built-in task runner
+
+---
+
+<img src="https://avatars.githubusercontent.com/u/102692984?s=200&v=4" alt="Dev Containers logo" height="160" />
+
+### Dev Containers
+
+- Everything: OS, tools, services, DBs
+- Identical for every developer
+- Powered by Docker + VS Code
+
+---
+
+### asdf and mise 
+manage tool *versions* on your host
+
+- ✅ Lightweight, no Docker needed
+- ✅ Fast to set up per-project runtimes
+- ❌ Don't handle system deps, databases, or OS differences
+
+
+---
+
+
+### Dev Containers
+simulate a full machine 
+
+- ✅ Identical environment 
+- ✅ Include services, extensions, OS-level deps...
+- ❌ Require Docker installed
 
 ---
 
@@ -249,7 +314,8 @@ But Docker is already a workshop prerequisite — and you get **everything else 
 
 ## ⏱️ TIMER 5min
 
-Clone the repo and read the code
+- Fork the repo on GitHub
+- Clone your fork locally
 
 ---
 
