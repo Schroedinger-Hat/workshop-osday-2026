@@ -417,109 +417,11 @@ curl http://localhost:3001/
 Run the backend and test it!
 
 1. `cd application/backend`
-2. `npm ci` — install dependencies
-3. `vp dev` — start the backend on port 3001
-4. In another terminal: `curl http://localhost:3001/` → should return `{ "status": "Hello world" }`
-5. `curl http://localhost:3001/api/links` → should return an empty array `[]`
+2. `npm ci && vp run dev` 
+3. `curl http://localhost:3001/`
+4. `curl http://localhost:3001/api/links` 
 
----
-
-## Next.js
-### Our Frontend Framework
-
----
-
-### What is
-### Server-Side Rendering (SSR)?
-
----
-
-
-SSR — render HTML on the server for each request
-instead of client-side JavaScript.
-
-
----
-
-### 🖥️ First Load
-
-| Client-Side (SPA) | Blank → JS loads → content |
-|---|---|
-| Server-Side (SSR) | Content immediately |
-
-
----
-
-### 🔍 SEO
-
-| Client-Side (SPA) | Poor (bots see blank page) |
-|---|---|
-| Server-Side (SSR) | Great (full HTML) |
-
-Search engines index your content — not an empty `<div>`.
-
----
-
-### ⚡ Performance
-
-| Client-Side (SPA) | Slower first paint |
-|---|---|
-| Server-Side (SSR) | Faster first paint |
-
-Less JavaScript to parse before the user sees something.
-
----
-
-### Why Next.js?
-
-- **File-based routing** — easy URLs
-- **SSR** — fast load, great SEO
-- **API routes** — built-in endpoints
-- **Optimized builds** — code splitting
-
----
-
-### Our Frontend Code
-
-```text
-application/frontend/
-├── src/
-│   └── app/              # Next.js App Router
-│       ├── page.tsx      # Home page — create & list links
-│       └── layout.tsx    # Root layout
-├── Dockerfile
-├── next.config.mjs
-└── package.json
-```
-
----
-
-### Run the Frontend (without Docker)
-
-```bash
-cd application/frontend
-npm install           # Install dependencies
-vp run dev            # Start dev server on http://localhost:3000
-```
-
-Open http://localhost:3000 🌐
-
-> ⚠️ Frontend needs the backend running!
-
----
-
-<!-- .slide: data-background="#44475a" -->
-
-## ⏱️ TIMER 5min
-
-Run the frontend and check it!
-
-1. Make sure the backend is still running on port 3001
-2. Open a new terminal: `cd application/frontend`
-3. `npm ci` — install dependencies
-4. `vp dev` — start the frontend on port 3000
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
-6. You should see the link-pulse UI ✅
+Is there somiething missing? 
 
 ---
 
@@ -565,6 +467,29 @@ We will use an ORM to interact with PostgreSQL
 use **code objects** instead of raw SQL.
 
 Benefits: **type safety**, **migrations**
+
+---
+
+<img 
+  src="./prisma-logo.jpg" 
+  alt="Prisma logo" 
+  height="160" 
+  style="display:block; margin:auto;" 
+/>
+
+---
+
+<img 
+  src="./prisma-logo.jpg" 
+  alt="Prisma logo" 
+  height="160" 
+  style="display:block; margin:auto;" 
+/>
+
+
+- Modern TypeScript ORM
+- Type-safe database client
+- Built-in migrations
 
 ---
 
@@ -765,6 +690,20 @@ const all = await prisma.link.findMany({
 
 ---
 
+### Database with docker
+
+```shell
+docker run -d \
+  --name linkpulse-postgres \
+  -p 5432:5432 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=linkpulse \
+  postgres:16-alpine
+```
+
+---
+
 ### Database in the Dev Container
 
 Dev container **includes PostgreSQL** —
@@ -826,15 +765,6 @@ npx prisma migrate dev --name first_migration
 vp run dev
 ```
 
-In another terminal:
-```bash
-cd application/frontend
-
-# Start the frontend
-vp run dev
-```
----
-
 ### Check the Application ✅
 
 1. Open [http://localhost:3000](http://localhost:3000)
@@ -850,12 +780,119 @@ vp run dev
 Run migration from prisma and start the app!
 
 1. `cd application/backend`
-2. `cp .env.example .env` — copy the env file
-3. `npx prisma migrate dev --name first_migration` — create the database schema
-4. `vp dev` — start the backend
-5. In another terminal: `cd application/frontend && vp dev` — start the frontend
-6. Open [http://localhost:3000](http://localhost:3000), create a short URL and click it → it should redirect! 🎉
+2. `cp .env.example .env`
+3. `npx prisma migrate dev --name first_migration`
+4. `vp run dev` — start the backend
+5. `curl http://localhost:3001/`
+6. `curl http://localhost:3001/api/links`
 
+---
+
+We still need a gui!
+
+---
+
+## Next.js
+### Our Frontend Framework
+
+---
+
+### What is
+### Server-Side Rendering (SSR)?
+
+---
+
+
+SSR — render HTML on the server for each request
+instead of client-side JavaScript.
+
+
+---
+
+### 🖥️ First Load
+
+| Client-Side (SPA) | Blank → JS loads → content |
+|---|---|
+| Server-Side (SSR) | Content immediately |
+
+
+---
+
+### 🔍 SEO
+
+| Client-Side (SPA) | Poor (bots see blank page) |
+|---|---|
+| Server-Side (SSR) | Great (full HTML) |
+
+Search engines index your content — not an empty `<div>`.
+
+---
+
+### ⚡ Performance
+
+| Client-Side (SPA) | Slower first paint |
+|---|---|
+| Server-Side (SSR) | Faster first paint |
+
+Less JavaScript to parse before the user sees something.
+
+---
+
+### Why Next.js?
+
+- **File-based routing** — easy URLs
+- **SSR** — fast load, great SEO
+- **API routes** — built-in endpoints
+- **Optimized builds** — code splitting
+
+---
+
+### Our Frontend Code
+
+```text
+application/frontend/
+├── src/
+│   └── app/              # Next.js App Router
+│       ├── page.tsx      # Home page — create & list links
+│       └── layout.tsx    # Root layout
+├── Dockerfile
+├── next.config.mjs
+└── package.json
+```
+
+---
+
+### Run the Frontend (without Docker)
+
+```bash
+cd application/frontend
+npm install           # Install dependencies
+vp run dev            # Start dev server on http://localhost:3000
+```
+
+Open http://localhost:3000 🌐
+
+> ⚠️ Frontend needs the backend running!
+
+---
+
+<!-- .slide: data-background="#44475a" -->
+
+## ⏱️ TIMER 5min
+
+Run the frontend and check it!
+
+1. Make sure the backend is still running on port 3001
+2. Open a new terminal: `cd application/frontend`
+3. `npm ci` — install dependencies
+4. `vp dev` — start the frontend on port 3000
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. You should see the link-pulse UI ✅
+
+
+---
+
+We need another feature!
 
 ---
 
