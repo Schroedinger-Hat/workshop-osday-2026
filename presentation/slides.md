@@ -9,7 +9,17 @@ revealOptions:
 ---
 
 <style>
-pre code { font-size: 0.8em !important; line-height: 1.4 !important; }
+pre code { 
+  font-size: 0.8em !important; 
+  line-height: 1.4 !important; 
+  overflow: hidden !important;
+  word-wrap: break-word !important;
+  white-space: pre-wrap !important;
+}
+pre {
+  overflow: hidden !important;
+  width: 100% !important;
+}
 </style>
 
 <!-- .slide: data-background="#282a36" -->
@@ -1099,8 +1109,6 @@ it('should increment visits on redirect', async () => {
 
 ---
 
----
-
 ### Run It — It Fails! 🔴
 
 ```bash
@@ -1880,16 +1888,6 @@ K8s watches CPU/memory and adds or removes pods automatically.
 
 ---
 
-### 🔄 Self-Healing
-
-| Docker Compose | ❌ |
-|---|---|
-| Kubernetes | ✅ |
-
-Crashed container? K8s restarts it. On a failed node? Reschedules elsewhere.
-
----
-
 ### 🚀 Rolling Deploys
 
 | Docker Compose | ❌ |
@@ -1923,7 +1921,6 @@ Start with Compose. Graduate to K8s when you need resilience across machines.
 ### link-pulse on Kubernetes
 
 ```yaml
-# deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
